@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Sign-Up</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <div class="arrenge_Centre">
+        <!-- Student Sign-Up Form -->
+        <div id="studentSignUp">
+            <h2>Student Sign-Up</h2>
+            <input type="email" id="signUpEmail" placeholder="Enter your email">
+            <input type="password" id="signUpPassword" placeholder="Enter your password">
+            <button id="signUpBtn">Sign Up</button>
+            <p id="signUpMessage" class="error-message"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase Configuration
+     const firebaseConfig = {
+    apiKey: "AIzaSyADwD8GeL2vJeLkSyp-ZlTuxNP4h0TjI6c",
+    authDomain: "past-question-papers.firebaseapp.com",
+    projectId: "past-question-papers",
+    storageBucket: "past-question-papers.appspot.com",
+    messagingSenderId: "813804356697",
+    appId: "1:813804356697:web:a7a820f205559262fcdd48",
+    measurementId: "G-6PDV1J39MN"
+};
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Student Sign-Up
+        document.getElementById("signUpBtn").addEventListener("click", async () => {
+            let email = document.getElementById("signUpEmail").value.trim();
+            let password = document.getElementById("signUpPassword").value.trim();
+            let message = document.getElementById("signUpMessage");
+
+            if (!email || !password) {
+                message.innerHTML = "❌ Please enter both email and password.";
+                message.classList.add("shake");
+                message.style.color = "red";
+                setTimeout(() => message.classList.remove("shake"), 500);
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                let user = userCredential.user;
+
+                await setDoc(doc(db, "students", user.uid), { 
+                    email: user.email, 
+                    joinedAt: new Date().toISOString() 
+                });
+
+                message.innerHTML = "✅ Sign-up successful! Redirecting...";
+                message.style.color = "green";
+                setTimeout(() => { window.location.href = "index.html"; }, 1500);
+            } catch (error) {
+                if (error.code === "auth/email-already-in-use") {
+                    message.innerHTML = "❌ This email is already registered. Try logging in.";
+                } else if (error.code === "auth/invalid-email") {
+                    message.innerHTML = "❌ Invalid email format. Please check and try again.";
+                } else if (error.code === "auth/weak-password") {
+                    message.innerHTML = "❌ Weak password. Try using at least 6 characters.";
+                } else {
+                    message.innerHTML = "❌ Registration failed. Please check your details and try again.";
+                }
+                message.classList.add("shake");
+                setTimeout(() => message.classList.remove("shake"), 500);
+                message.style.color = "red";
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Past Question Papers Portal</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <div class="arrenge_Centre">
+        <!-- Admin Login Form -->
+        <div id="adminLogin">
+            <h2>Admin Login</h2>
+            <input type="email" id="adminEmail" placeholder="Enter admin email">
+            <input type="password" id="adminPassword" placeholder="Enter admin password">
+            <button id="adminLoginBtn">Log In</button>
+            <p id="adminLoginMessage" class="error-message"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase Configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyADwD8GeL2vJeLkSyp-ZlTuxNP4h0TjI6c",
+    authDomain: "past-question-papers.firebaseapp.com",
+    projectId: "past-question-papers",
+    storageBucket: "past-question-papers.appspot.com",
+    messagingSenderId: "813804356697",
+    appId: "1:813804356697:web:a7a820f205559262fcdd48",
+    measurementId: "G-6PDV1J39MN"
+};
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        async function checkAdminRole(email) {
+            const q = query(collection(db, "admins"), where("email", "==", email.toLowerCase()));
+            const adminDocs = await getDocs(q);
+            return !adminDocs.empty;
+        }
+
+        // Admin Login
+        document.getElementById("adminLoginBtn").addEventListener("click", async () => {
+            let email = document.getElementById("adminEmail").value.trim();
+            let password = document.getElementById("adminPassword").value.trim();
+            let message = document.getElementById("adminLoginMessage");
+
+            if (!email || !password) {
+                message.innerHTML = "❌ Please enter both email and password.";
+                message.classList.add("shake");
+                message.style.color = "red";
+                setTimeout(() => message.classList.remove("shake"), 500);
+                return;
+            }
+
+            try {
+                let userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const isAdmin = await checkAdminRole(email);
+
+                if (isAdmin) {
+                    message.innerHTML = "✅ Admin login successful! Redirecting...";
+                    message.style.color = "green";
+                    setTimeout(() => { window.location.href = "admin.html"; }, 1500);
+                } else {
+                    message.innerHTML = "❌ You are not authorized as an admin!";
+                    message.style.color = "red";
+                    await signOut(auth);
+                }
+            } catch (error) {
+                if (error.code === "auth/invalid-email") {
+                    message.innerHTML = "❌ Invalid email format. Please try again.";
+                } else if (error.code === "auth/user-not-found") {
+                    message.innerHTML = "❌ Admin account not found.";
+                } else if (error.code === "auth/wrong-password") {
+                    message.innerHTML = "❌ Incorrect password.";
+                } else {
+                    message.innerHTML = "❌ Login failed. Please check your details.";
+                }
+                message.classList.add("shake");
+                setTimeout(() => message.classList.remove("shake"), 500);
+                message.style.color = "red";
+            }
+        });
+    </script>
+
+</body>
+</html>

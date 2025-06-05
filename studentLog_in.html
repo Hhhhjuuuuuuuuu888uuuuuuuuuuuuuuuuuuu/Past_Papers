@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <div class="arrenge_Centre">
+        <!-- Student Login Form -->
+        <div id="studentLogin">
+            <h2>Student Login</h2>
+            <input type="email" id="loginEmail" placeholder="Enter your email">
+            <input type="password" id="loginPassword" placeholder="Enter your password">
+            <button id="loginBtn">Log In</button>
+            <button id="resetPasswordBtn">Forgot Password?</button>
+            <p id="loginMessage" class="error-message"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+ // Firebase Configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyADwD8GeL2vJeLkSyp-ZlTuxNP4h0TjI6c",
+    authDomain: "past-question-papers.firebaseapp.com",
+    projectId: "past-question-papers",
+    storageBucket: "past-question-papers.appspot.com",
+    messagingSenderId: "813804356697",
+    appId: "1:813804356697:web:a7a820f205559262fcdd48",
+    measurementId: "G-6PDV1J39MN"
+};
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Student Login
+        document.getElementById("loginBtn").addEventListener("click", async () => {
+            let email = document.getElementById("loginEmail").value.trim();
+            let password = document.getElementById("loginPassword").value.trim();
+            let message = document.getElementById("loginMessage");
+
+            if (!email || !password) {
+                message.innerHTML = "❌ Please enter both email and password.";
+                message.classList.add("shake");
+                message.style.color = "red";
+                setTimeout(() => message.classList.remove("shake"), 500);
+                return;
+            }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                message.innerHTML = "✅ Login successful! Redirecting...";
+                message.style.color = "green";
+                setTimeout(() => { window.location.href = "student.html"; }, 1500);
+            } catch (error) {
+                if (error.code === "auth/invalid-email") {
+                    message.innerHTML = "❌ Invalid email format. Please check and try again.";
+                } else if (error.code === "auth/user-not-found") {
+                    message.innerHTML = "❌ No account found with this email. Try signing up first.";
+                } else if (error.code === "auth/wrong-password") {
+                    message.innerHTML = "❌ Incorrect password. Please try again or reset it.";
+                } else {
+                    message.innerHTML = "❌ Authentication failed. Please check your details.";
+                }
+                message.classList.add("shake");
+                setTimeout(() => message.classList.remove("shake"), 500);
+                message.style.color = "red";
+            }
+        });
+
+        // Password Reset Redirect
+        document.getElementById("resetPasswordBtn").addEventListener("click", () => {
+            let message = document.getElementById("loginMessage");
+
+            message.innerHTML = "✅ Redirecting to password reset page...";
+            message.style.color = "green";
+            setTimeout(() => { window.location.href = "studentPasswordReset.html"; }, 1500);
+        });
+    </script>
+
+</body>
+</html>
