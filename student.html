@@ -5,309 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style> 
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .navbar {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .navbar-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        .navbar-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        
-        .navbar-links a:hover, .navbar-links a.active {
-            background-color: var(--primary-color);
-        }
-        
-        .container {
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .content-section {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .content-section.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        h2 {
-            margin-bottom: 1.5rem;
-            color: var(--dark-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
-        }
-        
-        .filter-options {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        select, input[type="text"], input[type="number"], textarea {
-            padding: 0.5rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        select:focus, input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        }
-        
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .resource-card, .course-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .resource-card:hover, .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .resource-image {
-            height: 150px;
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #777;
-        }
-        
-        .resource-info, .course-info {
-            padding: 1rem;
-        }
-        
-        .resource-title, .course-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
-        }
-        
-        .resource-meta, .course-meta {
-            display: flex;
-            justify-content: space-between;
-            color: #777;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .resource-actions, .course-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        textarea {
-            width: 100%;
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        .message {
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 4px;
-            display: none;
-        }
-        
-        .success {
-            background-color: rgba(46, 204, 113, 0.2);
-            color: var(--success-color);
-            display: block;
-        }
-        
-        .error {
-            background-color: rgba(231, 76, 60, 0.2);
-            color: var(--accent-color);
-            display: block;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #777;
-        }
-        
-        .close-btn:hover {
-            color: var(--dark-color);
-        }
-        
-        .course-progress {
-            height: 5px;
-            background-color: #eee;
-            border-radius: 5px;
-            margin: 0.5rem 0;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background-color: var(--primary-color);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #777;
-        }
-        
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #ddd;
-        }
-        
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                padding: 1rem;
-            }
-            
-            .navbar-links {
-                margin-top: 1rem;
-                width: 100%;
-                justify-content: space-around;
-            }
-            
-            .resource-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .filter-options {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="student.css">
 </head>
 <body>
     <nav class="navbar">
@@ -326,111 +24,200 @@
             <h2>My Courses</h2>
             <div class="filter-options">
                 <select id="course-filter">
-                    <option value="all">All Courses</option>
-                    <option value="current">Current</option>
-                    <option value="completed">Completed</option>
-                    <option value="upcoming">Upcoming</option>
+                    <option value="all">All Papers</option>
+                    <option value="current">Paper 1</option>
+                    <option value="completed">Paper 2</option>
                 </select>
-                <input type="text" id="course-search" placeholder="Search courses...">
+                <input type="text" id="course-search" placeholder="Search for Mathematics Topics...">
             </div>
             
             <div class="resource-grid" id="courses-container">
                 <!-- Course cards will be loaded here -->
                 <div class="course-card">
                     <div class="resource-image">
-                        <i class="fas fa-laptop-code" style="font-size: 3rem;"></i>
+                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Web Development Fundamentals</h3>
+                        <h3 class="course-title">Algebra</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prof. Smith</span>
-                            <span><i class="fas fa-calendar-alt"></i> Mon/Wed 10-11:30</span>
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
+                            
                         </div>
                         <div class="course-progress">
-                            <div class="progress-bar" style="width: 75%"></div>
+                            <div class="progress-bar" style="width: 75%;"></div>
                         </div>
                         <div class="course-meta">
-                            <span>75% Complete</span>
-                            <span>12/16 Weeks</span>
+                            <span>Paper 1</span>
+                        
                         </div>
                         <div class="course-actions">
                             <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline"><i class="fas fa-info-circle"></i> Details</button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-info-circle"></i>
+                                <details style="position: relative;">
+                                    Details of this topic and concepts which will be covered...
+                                </details>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
+                      <div class="resource-grid" id="courses-container">
+                <!-- Course cards will be loaded here -->
                 <div class="course-card">
-                    <div class="resource-image" style="background-color: #f0f8ff;">
-                        <i class="fas fa-database" style="font-size: 3rem;"></i>
+                    <div class="resource-image">
+                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Database Systems</h3>
+                        <h3 class="course-title">Algebra</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Dr. Johnson</span>
-                            <span><i class="fas fa-calendar-alt"></i> Tue/Thu 2-3:30</span>
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
+                            
                         </div>
                         <div class="course-progress">
-                            <div class="progress-bar" style="width: 30%"></div>
+                            <div class="progress-bar" style="width: 75%;"></div>
                         </div>
                         <div class="course-meta">
-                            <span>30% Complete</span>
-                            <span>5/16 Weeks</span>
+                            <span>Paper 1</span>
+                        
                         </div>
                         <div class="course-actions">
                             <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline"><i class="fas fa-info-circle"></i> Details</button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-info-circle"></i>
+                                <details style="position: relative;">
+                                    Details of this topic and concepts which will be covered...
+                                </details>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
+                     <div class="resource-grid" id="courses-container">
+                <!-- Course cards will be loaded here -->
                 <div class="course-card">
-                    <div class="resource-image" style="background-color: #fff0f0;">
-                        <i class="fas fa-project-diagram" style="font-size: 3rem;"></i>
+                    <div class="resource-image">
+                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Data Structures & Algorithms</h3>
+                        <h3 class="course-title">Algebra</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prof. Williams</span>
-                            <span><i class="fas fa-calendar-alt"></i> Fri 9-12</span>
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
+                            
                         </div>
                         <div class="course-progress">
-                            <div class="progress-bar" style="width: 90%"></div>
+                            <div class="progress-bar" style="width: 75%;"></div>
                         </div>
                         <div class="course-meta">
-                            <span>90% Complete</span>
-                            <span>14/16 Weeks</span>
+                            <span>Paper 1</span>
+                        
                         </div>
                         <div class="course-actions">
                             <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline"><i class="fas fa-info-circle"></i> Details</button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-info-circle"></i>
+                                <details style="position: relative;">
+                                    Details of this topic and concepts which will be covered...
+                                </details>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
+                
+                            <div class="resource-grid" id="courses-container">
+                <!-- Course cards will be loaded here -->
                 <div class="course-card">
-                    <div class="resource-image" style="background-color: #f0fff0;">
-                        <i class="fas fa-mobile-alt" style="font-size: 3rem;"></i>
+                    <div class="resource-image">
+                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Mobile App Development</h3>
+                        <h3 class="course-title">Algebra</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Dr. Brown</span>
-                            <span><i class="fas fa-calendar-alt"></i> Starts May 15</span>
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
+                            
                         </div>
                         <div class="course-progress">
-                            <div class="progress-bar" style="width: 0%"></div>
+                            <div class="progress-bar" style="width: 75%;"></div>
                         </div>
                         <div class="course-meta">
-                            <span>Upcoming</span>
-                            <span>0/12 Weeks</span>
+                            <span>Paper 1</span>
+                        
                         </div>
                         <div class="course-actions">
-                            <button class="btn btn-outline" disabled><i class="fas fa-info-circle"></i> Details</button>
+                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-info-circle"></i>
+                                <details style="position: relative;">
+                                    Details of this topic and concepts which will be covered...
+                                </details>
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
+                
+                            <div class="resource-grid" id="courses-container">
+                <!-- Course cards will be loaded here -->
+                <div class="course-card">
+                    <div class="resource-image">
+                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">Algebra</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
+                            
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 75%;"></div>
+                        </div>
+                        <div class="course-meta">
+                            <span>Paper 1</span>
+                        
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-info-circle"></i>
+                                <details style="position: relative;">
+                                    Details of this topic and concepts which will be covered...
+                                </details>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                            <div class="resource-grid" id="courses-container">
+                <!-- Course cards will be loaded here -->
+                <div class="course-card">
+                    <div class="resource-image">
+                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">Algebra</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
+                            
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 75%;"></div>
+                        </div>
+                        <div class="course-meta">
+                            <span>Paper 1</span>
+                        
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-info-circle"></i>
+                                <details style="position: relative;">
+                                    Details of this topic and concepts which will be covered...
+                                </details>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
         </section>
 
         <!-- Resources Section -->
@@ -615,209 +402,6 @@
         </div>
     </div>
 
-    <script>
-        // Navigation between sections
-        document.querySelectorAll('.navbar-links a[data-section]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Update active nav link
-                document.querySelector('.navbar-links a.active').classList.remove('active');
-                this.classList.add('active');
-                
-                // Hide all sections
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Show selected section
-                const sectionId = this.getAttribute('data-section') + '-section';
-                document.getElementById(sectionId).classList.add('active');
-            });
-        });
-        
-        // Search functionality for courses
-        document.getElementById('course-search').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const courseCards = document.querySelectorAll('#courses-container .course-card');
-            
-            courseCards.forEach(card => {
-                const title = card.querySelector('.course-title').textContent.toLowerCase();
-                const instructor = card.querySelector('.course-meta span:first-child').textContent.toLowerCase();
-                
-                if (title.includes(searchTerm) || instructor.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-        
-        // Filter functionality for courses
-        document.getElementById('course-filter').addEventListener('change', function() {
-            const filterValue = this.value;
-            const courseCards = document.querySelectorAll('#courses-container .course-card');
-            
-            courseCards.forEach(card => {
-                const progressText = card.querySelector('.course-meta span:first-child').textContent.toLowerCase();
-                
-                if (filterValue === 'all') {
-                    card.style.display = 'block';
-                } else if (filterValue === 'current' && !progressText.includes('upcoming') && !progressText.includes('100%')) {
-                    card.style.display = 'block';
-                } else if (filterValue === 'completed' && progressText.includes('100%')) {
-                    card.style.display = 'block';
-                } else if (filterValue === 'upcoming' && progressText.includes('upcoming')) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-        
-        // Search functionality for resources
-        document.getElementById('resource-search').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const resourceCards = document.querySelectorAll('#resource-container .resource-card');
-            
-            resourceCards.forEach(card => {
-                const title = card.querySelector('.resource-title').textContent.toLowerCase();
-                const description = card.querySelector('.resource-description').textContent.toLowerCase();
-                
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-        
-        // Filter functionality for resources
-        document.getElementById('resource-type').addEventListener('change', filterResources);
-        document.getElementById('resource-course').addEventListener('change', filterResources);
-        
-        function filterResources() {
-            const typeValue = document.getElementById('resource-type').value;
-            const courseValue = document.getElementById('resource-course').value;
-            const resourceCards = document.querySelectorAll('#resource-container .resource-card');
-            
-            resourceCards.forEach(card => {
-                const type = card.querySelector('.resource-image i').classList.contains('fa-video') ? 'video' :
-                            card.querySelector('.resource-image i').classList.contains('fa-headphones') ? 'recording' :
-                            card.querySelector('.resource-image i').classList.contains('fa-file-pdf') ? 'document' :
-                            card.querySelector('.resource-image i').classList.contains('fa-file-word') ? 'document' :
-                            'assignment';
-                
-                const course = card.querySelector('.resource-meta span:last-child').textContent.toLowerCase();
-                const courseMatch = courseValue === 'all' || 
-                                  (courseValue === 'web-dev' && course.includes('web')) ||
-                                  (courseValue === 'database' && course.includes('database')) ||
-                                  (courseValue === 'dsa' && course.includes('data'));
-                
-                const typeMatch = typeValue === 'all' || typeValue === type;
-                
-                if (typeMatch && courseMatch) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-        
-        // Request form submission
-        document.getElementById('request-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simulate form submission
-            setTimeout(() => {
-                const messageDiv = document.getElementById('request-message');
-                messageDiv.textContent = 'Your request has been submitted successfully!';
-                messageDiv.className = 'message success';
-                
-                // Reset form
-                this.reset();
-                
-                // Hide message after 5 seconds
-                setTimeout(() => {
-                    messageDiv.className = 'message';
-                }, 5000);
-            }, 1000);
-        });
-        
-        // Feedback modal
-        const modal = document.getElementById('feedback-modal');
-        const closeBtn = document.querySelector('.close-btn');
-        const stars = document.querySelectorAll('[data-rating]');
-        const ratingInput = document.getElementById('feedback-rating');
-        
-        // Open modal (you can trigger this when appropriate)
-        function openFeedbackModal() {
-            modal.style.display = 'flex';
-        }
-        
-        // Close modal
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-        
-        // Close when clicking outside modal
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        
-        // Star rating
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                const rating = this.getAttribute('data-rating');
-                ratingInput.value = rating;
-                
-                stars.forEach((s, index) => {
-                    if (index < rating) {
-                        s.classList.remove('far');
-                        s.classList.add('fas');
-                    } else {
-                        s.classList.remove('fas');
-                        s.classList.add('far');
-                    }
-                });
-            }); 
-        });
-        
-        // Feedback form submission
-        document.getElementById('feedback-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simulate form submission
-            setTimeout(() => {
-                modal.style.display = 'none';
-                alert('Thank you for your feedback!');
-                this.reset();
-                
-                // Reset stars
-                stars.forEach(star => {
-                    star.classList.remove('fas');
-                    star.classList.add('far');
-                });
-            }, 1000);
-        });
-        
-        // Logout button
-        document.getElementById('logoutBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                // Here you would typically call your logout API
-                // For now, just redirect to login page
-                window.location.href = 'index.html';
-            }
-        });
-        
-        // Initialize filters
-        filterResources();
-        
-        // Show feedback button after 30 seconds (demo purposes)
-        setTimeout(openFeedbackModal, 30000);
-    </script>
+    <script src="student.js"></script>
 </body>
 </html>
