@@ -30,13 +30,22 @@
             <!-- Request Form -->
             <div class="form-container">
                 <form id="request-form" action="https://formsubmit.co/collinsmaropeng2@gmail.com" method="POST">
+
+                    <!--Honeypot-->
+                    <input type="text" name="_honey" style="display: none;">
+
+                    <!--Diable Capture-->
+                    <input type="hidden" name="_captcha" value="false">
+
+                    <!--Success Page-->
                     <input type="hidden" name="_next" value="request_confirmation.html">
+                    
                     <input type="hidden" name="_subject" value="New Paper Request">
                     <input type="hidden" name="_template" value="table">
                     
                     <div class="form-group">
-                        <label for="paper-course">Course:</label>
-                        <select id="paper-course" name="course" required>
+                        <label for="paper-course">Paper:</label>
+                        <select id="paper-course" name="Paper" required>
                             <option value="">Select a paper</option>
                             <option value="paper1">Paper 1</option>
                             <option value="paper2">Paper 2</option>

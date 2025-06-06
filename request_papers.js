@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showMessage('Please enter a valid year between 2000 and 2025', 'error');
             return false;
         }
-        
+         
         return true;
     }
 
