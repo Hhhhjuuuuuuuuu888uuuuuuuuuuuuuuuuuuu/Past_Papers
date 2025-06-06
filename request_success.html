@@ -201,9 +201,9 @@
     <nav class="navbar">
         <div class="navbar-brand">Student Dashboard</div>
         <div class="navbar-links">
-            <a href="student.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="student.html"><i class="fas fa-home"></i>Mathematics Topics</a>
             <a href="resources.html"><i class="fas fa-book"></i> Resources</a>
-            <a href="request_papers.html"><i class="fas fa-paper-plane"></i> Request Papers</a>
+            <a href="request_papers.html"><i class="fas fa-paper-plane"></i> Request another Paper</a>
         </div>
     </nav>
 
@@ -214,27 +214,34 @@
             </div>
             <h1 class="success-title">Request Submitted Successfully!</h1>
             <p class="success-message">
-                Your paper request has been received. We'll process it and notify you once it's available. 
-                You can check the status in your dashboard.
+               Thank you for submitting your paper request. We’ve received
+                your submission and will process it shortly.
+                     
+                <br>
+                <br>
+
+               Please continue to check your resources for the paper.
+               If it does not appear within 24 hours, kindly resubmit
+               your request, and we’ll ensure it is uploaded promptly.
             </p>
-            <a href="student.html" class="btn btn-primary">
-                <i class="fas fa-arrow-left"></i> Return to Dashboard
+            <a href="request_papers.html" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i>Back
             </a>
         </div>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2023 Student Dashboard. All rights reserved.</p>
+        <p>&copy; 2025 Student Dashboard. All rights reserved.</p>
     </footer>
 
     <script>
         // Automatically return to dashboard after 10 seconds (optional)
         setTimeout(() => {
             // Only redirect if user hasn't already clicked the button
-            if (!window.location.href.includes('student.html')) {
-                window.location.href = 'student.html';
+            if (!window.location.href.includes('request_papers.html')) {
+                window.location.href = 'request_papers.html';
             }
-        }, 10000);
+        }, 25000);
 
         // Add animation to button on page load
         document.addEventListener('DOMContentLoaded', () => {
