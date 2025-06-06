@@ -3,21 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Past Question Papers Portal</title>
-    <link rel="stylesheet" href="auth.css">
+    <title>Admin Login - Math Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(-45deg, #1a2a6c, #b21f1f, #0a9396);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 2rem 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            max-width: 450px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #00b4db, #0083b0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 30px rgba(0, 180, 219, 0.4); }
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 180, 219, 0.5);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            background: linear-gradient(to right, #00b4db, #0083b0);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        .message {
+            margin-top: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+        }
+
+        .success-message {
+            color: #51cf66;
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .math-symbol {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: floatSymbol 15s linear infinite;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes floatSymbol {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-500px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .coming-soon {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+
+        .security-animation {
+            margin: 20px 0;
+            font-size: 3rem;
+            animation: lockPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes lockPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
 </head>
 <body>
+    <div class="coming-soon">Secure Admin Portal</div>
 
-    <h1 style="color: rgba(175, 172, 172, 0.411); text-align: center;">Coming Soon...</h1>
-
-    <div class="arrenge_Centre">
-        <!-- Admin Login Form -->
-        <div id="adminLogin">
-            <h2>Admin Login</h2>
-            <input type="email" id="adminEmail" placeholder="Enter admin email">
-            <input type="password" id="adminPassword" placeholder="Enter admin password">
-            <button id="adminLoginBtn">Log In</button>
-            <p id="adminLoginMessage" class="error-message"></p>
+    <div class="container">
+        <div class="security-animation">🔒</div>
+        <h1>Admin Login</h1>
+        
+        <div class="login-form">
+            <div class="input-group">
+                <input type="email" id="adminEmail" placeholder="Admin Email" required>
+                <div class="input-icon">✉️</div>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="adminPassword" placeholder="Password" required>
+                <div class="input-icon">🔑</div>
+            </div>
+            
+            <button id="adminLoginBtn">Access Dashboard</button>
+            <p id="adminLoginMessage" class="message"></p>
         </div>
     </div>
 
@@ -26,16 +257,36 @@
         import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+        // Create floating math symbols
+        function createMathSymbols() {
+            const symbols = ['∫', '∑', '∏', '√', '∞', '≠', '≡', '≈', '≤', '≥', '±', '∴', '∵', '≅'];
+            for (let i = 0; i < 15; i++) {
+                const symbol = document.createElement('div');
+                symbol.className = 'math-symbol';
+                symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                symbol.style.left = Math.random() * 100 + 'vw';
+                symbol.style.top = Math.random() * 100 + 'vh';
+                symbol.style.animationDuration = 10 + Math.random() * 20 + 's';
+                symbol.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(symbol);
+            }
+        }
+
+        // Initialize animations
+        window.onload = function() {
+            createMathSymbols();
+        };
+
         // Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyADwD8GeL2vJeLkSyp-ZlTuxNP4h0TjI6c",
-    authDomain: "past-question-papers.firebaseapp.com",
-    projectId: "past-question-papers",
-    storageBucket: "past-question-papers.appspot.com",
-    messagingSenderId: "813804356697",
-    appId: "1:813804356697:web:a7a820f205559262fcdd48",
-    measurementId: "G-6PDV1J39MN"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyADwD8GeL2vJeLkSyp-ZlTuxNP4h0TjI6c",
+            authDomain: "past-question-papers.firebaseapp.com",
+            projectId: "past-question-papers",
+            storageBucket: "past-question-papers.appspot.com",
+            messagingSenderId: "813804356697",
+            appId: "1:813804356697:web:a7a820f205559262fcdd48",
+            measurementId: "G-6PDV1J39MN"
+        };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
@@ -54,11 +305,17 @@ const firebaseConfig = {
             let password = document.getElementById("adminPassword").value.trim();
             let message = document.getElementById("adminLoginMessage");
 
+            // Add loading animation to button
+            const btn = document.getElementById("adminLoginBtn");
+            btn.innerHTML = '<span class="loading">🔒</span> Authenticating...';
+            btn.disabled = true;
+
             if (!email || !password) {
                 message.innerHTML = "❌ Please enter both email and password.";
-                message.classList.add("shake");
-                message.style.color = "red";
+                message.className = "message error-message shake";
                 setTimeout(() => message.classList.remove("shake"), 500);
+                btn.innerHTML = 'Access Dashboard';
+                btn.disabled = false;
                 return;
             }
 
@@ -67,30 +324,53 @@ const firebaseConfig = {
                 const isAdmin = await checkAdminRole(email);
 
                 if (isAdmin) {
-                    message.innerHTML = "✅ Admin login successful! Redirecting...";
-                    message.style.color = "green";
-                    setTimeout(() => { window.location.href = "admin.html"; }, 1500);
+                    message.innerHTML = "✅ Authentication successful! Redirecting to admin dashboard...";
+                    message.className = "message success-message";
+                    btn.innerHTML = '<span class="success">✓</span> Access Granted';
+                    
+                    // Add celebration effect
+                    document.querySelector('.security-animation').textContent = '🎉';
+                    document.querySelector('.security-animation').style.animation = 'none';
+                    document.querySelector('.security-animation').style.transform = 'scale(1.5)';
+                    
+                    setTimeout(() => { 
+                        window.location.href = "admin.html"; 
+                    }, 2000);
                 } else {
-                    message.innerHTML = "❌ You are not authorized as an admin!";
-                    message.style.color = "red";
+                    message.innerHTML = "❌ Access denied. You are not authorized as an admin.";
+                    message.className = "message error-message shake";
                     await signOut(auth);
+                    btn.innerHTML = 'Access Dashboard';
+                    btn.disabled = false;
                 }
             } catch (error) {
+                let errorMessage = "❌ Login failed. Please check your details.";
+                
                 if (error.code === "auth/invalid-email") {
-                    message.innerHTML = "❌ Invalid email format. Please try again.";
+                    errorMessage = "❌ Invalid email format. Please try again.";
                 } else if (error.code === "auth/user-not-found") {
-                    message.innerHTML = "❌ Admin account not found.";
+                    errorMessage = "❌ Admin account not found.";
                 } else if (error.code === "auth/wrong-password") {
-                    message.innerHTML = "❌ Incorrect password.";
-                } else {
-                    message.innerHTML = "❌ Login failed. Please check your details.";
+                    errorMessage = "❌ Incorrect password.";
+                } else if (error.code === "auth/too-many-requests") {
+                    errorMessage = "❌ Too many attempts. Account temporarily locked.";
                 }
-                message.classList.add("shake");
+                
+                message.innerHTML = errorMessage;
+                message.className = "message error-message shake";
                 setTimeout(() => message.classList.remove("shake"), 500);
-                message.style.color = "red";
+                btn.innerHTML = 'Access Dashboard';
+                btn.disabled = false;
+            }
+        });
+
+        // Add enter key functionality
+        document.getElementById("adminPassword").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("adminLoginBtn").click();
             }
         });
     </script>
-
 </body>
 </html>

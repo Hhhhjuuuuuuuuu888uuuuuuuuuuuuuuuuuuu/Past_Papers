@@ -3,38 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login</title>
-    <link rel="stylesheet" href="auth.css">
+    <title>Student Login - Math Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(-45deg, #11998e, #38ef7d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 2rem 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            max-width: 450px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #a8ff78, #78ffd6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 30px rgba(168, 255, 120, 0.4); }
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(168, 255, 120, 0.5);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            background: linear-gradient(to right, #a8ff78, #78ffd6);
+            color: #333;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        .secondary-button {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            margin-top: 0;
+        }
+
+        .secondary-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .message {
+            margin-top: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+        }
+
+        .success-message {
+            color: #51cf66;
+        }
+
+        .info-message {
+            color: #78ffd6;
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .math-symbol {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: floatSymbol 15s linear infinite;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes floatSymbol {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-500px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .student-animation {
+            margin: 20px 0;
+            font-size: 3rem;
+            animation: studentPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes studentPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .loading {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success {
+            animation: bounce 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .form-footer {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-footer button {
+            flex: 1;
+            margin: 0 5px;
+        }
+    </style>
 </head>
 <body>
-
-    <div class="arrenge_Centre">
-        <!-- Student Login Form -->
-        <div id="studentLogin">
-            <h2>Student Login</h2>
-            <input type="email" id="loginEmail" placeholder="Enter your email">
-            <input type="password" id="loginPassword" placeholder="Enter your password">
-            <button id="signUpRedirectBtn" class="signup-button">Don't have an account? Sign up</button>
+    <div class="container">
+        <div class="student-animation">🧑‍🎓</div>
+        <h1>Student Login</h1>
+        
+        <div class="login-form">
+            <div class="input-group">
+                <input type="email" id="loginEmail" placeholder="Student Email" required>
+                <div class="input-icon">✉️</div>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <div class="input-icon">🔒</div>
+            </div>
+            
             <button id="loginBtn">Log In</button>
-            <button id="resetPasswordBtn">Forgot Password?</button>
-            <p id="loginMessage" class="error-message"></p>
+            <button id="signUpRedirectBtn" class="secondary-button">Don't have an account? Sign up</button>
+            
+            <div class="form-footer">
+                <button id="resetPasswordBtn" class="secondary-button">Forgot Password?</button>
+            </div>
+            
+            <p id="loginMessage" class="message"></p>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-    // Firebase Configuration
-    const firebaseConfig = {
-    apiKey: "AIzaSyADwD8GeL2vJeLkSyp-ZlTuxNP4h0TjI6c",
-    authDomain: "past-question-papers.firebaseapp.com",
-    projectId: "past-question-papers",
-    storageBucket: "past-question-papers.appspot.com",
-    messagingSenderId: "813804356697",
-    appId: "1:813804356697:web:a7a820f205559262fcdd48",
-    measurementId: "G-6PDV1J39MN"
-};
+        // Create floating math symbols
+        function createMathSymbols() {
+            const symbols = ['f(x)', 'dy/dx', '∫', '∑', '∏', 'lim', '∠', '⊥', '∥', '∟', '∝', '∞', '√', '∂', 'Δ'];
+            for (let i = 0; i < 15; i++) {
+                const symbol = document.createElement('div');
+                symbol.className = 'math-symbol';
+                symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                symbol.style.left = Math.random() * 100 + 'vw';
+                symbol.style.top = Math.random() * 100 + 'vh';
+                symbol.style.animationDuration = 10 + Math.random() * 20 + 's';
+                symbol.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(symbol);
+            }
+        }
+
+        // Initialize animations
+        window.onload = function() {
+            createMathSymbols();
+        };
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyADwD8GeL2vJeLkSyp-ZlTuxNP4h0TjI6c",
+            authDomain: "past-question-papers.firebaseapp.com",
+            projectId: "past-question-papers",
+            storageBucket: "past-question-papers.appspot.com",
+            messagingSenderId: "813804356697",
+            appId: "1:813804356697:web:a7a820f205559262fcdd48",
+            measurementId: "G-6PDV1J39MN"
+        };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
@@ -46,51 +329,92 @@
             let password = document.getElementById("loginPassword").value.trim();
             let message = document.getElementById("loginMessage");
 
+            // Add loading animation to button
+            const btn = document.getElementById("loginBtn");
+            btn.innerHTML = '<span class="loading">⏳</span> Logging in...';
+            btn.disabled = true;
+
             if (!email || !password) {
                 message.innerHTML = "❌ Please enter both email and password.";
-                message.classList.add("shake");
-                message.style.color = "red";
+                message.className = "message error-message shake";
                 setTimeout(() => message.classList.remove("shake"), 500);
+                btn.innerHTML = 'Log In';
+                btn.disabled = false;
                 return;
             }
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                message.innerHTML = "✅ Login successful! Redirecting...";
-                message.style.color = "green";
-                setTimeout(() => { window.location.href = "student.html"; }, 1500);
+                message.innerHTML = "✅ Login successful! Welcome back!";
+                message.className = "message success-message";
+                btn.innerHTML = '<span class="success">✓</span> Access Granted';
+                
+                // Add success effect
+                document.querySelector('.student-animation').textContent = '🎉';
+                document.querySelector('.student-animation').style.animation = 'none';
+                document.querySelector('.student-animation').style.transform = 'scale(1.5)';
+                
+                setTimeout(() => { 
+                    window.location.href = "student.html"; 
+                }, 2000);
             } catch (error) {
+                let errorMessage = "❌ Authentication failed. Please check your details.";
+                
                 if (error.code === "auth/invalid-email") {
-                    message.innerHTML = "❌ Invalid email format. Please check and try again.";
+                    errorMessage = "❌ Invalid email format. Please check and try again.";
                 } else if (error.code === "auth/user-not-found") {
-                    message.innerHTML = "❌ No account found with this email. Try signing up first.";
+                    errorMessage = "❌ No account found with this email. Try signing up first.";
                 } else if (error.code === "auth/wrong-password") {
-                    message.innerHTML = "❌ Incorrect password. Please try again or reset it.";
-                } else {
-                    message.innerHTML = "❌ Authentication failed. Please check your details.";
+                    errorMessage = "❌ Incorrect password. Please try again or reset it.";
+                } else if (error.code === "auth/too-many-requests") {
+                    errorMessage = "❌ Too many attempts. Account temporarily locked.";
                 }
-                message.classList.add("shake");
+                
+                message.innerHTML = errorMessage;
+                message.className = "message error-message shake";
                 setTimeout(() => message.classList.remove("shake"), 500);
-                message.style.color = "red";
+                btn.innerHTML = 'Log In';
+                btn.disabled = false;
             }
         });
 
         // Sign-up Redirect
         document.getElementById("signUpRedirectBtn").addEventListener("click", () => {
             let message = document.getElementById("loginMessage");
-            message.innerHTML = "✅ Redirecting to sign-up page...";
-            message.style.color = "blue";
-            setTimeout(() => { window.location.href = "studentSign_up.html"; }, 1500);
+            const btn = document.getElementById("signUpRedirectBtn");
+            
+            message.innerHTML = "⏳ Redirecting to sign-up page...";
+            message.className = "message info-message";
+            btn.innerHTML = '➡️ Redirecting...';
+            btn.disabled = true;
+            
+            setTimeout(() => { 
+                window.location.href = "studentSign_up.html"; 
+            }, 1500);
         });
 
         // Password Reset Redirect
         document.getElementById("resetPasswordBtn").addEventListener("click", () => {
             let message = document.getElementById("loginMessage");
-            message.innerHTML = "✅ Redirecting to password reset page...";
-            message.style.color = "green";
-            setTimeout(() => { window.location.href = "studentPasswordReset.html"; }, 1500);
+            const btn = document.getElementById("resetPasswordBtn");
+            
+            message.innerHTML = "⏳ Redirecting to password reset...";
+            message.className = "message info-message";
+            btn.innerHTML = '➡️ Redirecting...';
+            btn.disabled = true;
+            
+            setTimeout(() => { 
+                window.location.href = "studentPasswordReset.html"; 
+            }, 1500);
+        });
+
+        // Add enter key functionality
+        document.getElementById("loginPassword").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("loginBtn").click();
+            }
         });
     </script>
-
 </body>
 </html>
