@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const messageDiv = document.getElementById('request-message');
         messageDiv.textContent = message;
         messageDiv.className = `message ${type}`;
-        
+         
         setTimeout(() => {
             messageDiv.textContent = '';
             messageDiv.className = 'message';
