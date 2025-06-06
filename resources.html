@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Student Dashboard - Resources</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .navbar-links a:hover {
+            color: #3498db;
+        }
+        
+        .navbar-links a.active {
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .navbar-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #3498db;
+        }
+        
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Resources Section */
+        .content-section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+        }
+        
+        .mobile-filters-toggle {
+            display: none;
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .filter-group {
+            flex: 1;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .filter-group select, 
+        .filter-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .search-group {
+            position: relative;
+        }
+        
+        .search-input-container {
+            position: relative;
+        }
+        
+        .search-input-container i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .resource-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .resource-image {
+            width: 150px;
+            height: 150px;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            color: #3498db;
+            font-size: 3rem;
+        }
+        
+        .resource-image i {
+            opacity: 0.8;
+        }
+        
+        .duration-badge, 
+        .document-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .resource-info {
+            flex: 1;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .resource-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .resource-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .paper-badge {
+            background-color: #3498db;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .resource-description {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .resource-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #3498db;
+            color: #3498db;
+        }
+        
+        .btn-outline:hover {
+            background-color: #f0f8ff;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .close-btn:hover {
+            color: #333;
+        }
+        
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: black;
+        }
+        
+        .video-container video {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .video-info {
+            padding: 20px 0 0;
+        }
+        
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        #pdf-viewer {
+            width: 100%;
+            height: 70vh;
+            border: 1px solid #ddd;
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .navbar-toggle {
+                display: block;
+            }
+            
+            .navbar-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #2c3e50;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 1000;
+            }
+            
+            .navbar-links.active {
+                display: flex;
+            }
+            
+            .navbar-links a {
+                padding: 0.75rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                width: 100%;
+                display: block !important;
+            }
+            
+            .logout-text {
+                display: inline;
+            }
+            
+            .content-section {
+                padding: 1rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .mobile-filters-toggle {
+                display: block;
+                width: 100%;
+            }
+            
+            #filter-toggle-btn {
+                width: 100%;
+                padding: 0.75rem;
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+                display: none;
+            }
+            
+            .filter-options.active {
+                display: flex;
+            }
+            
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .resource-card {
+                flex-direction: column;
+            }
+            
+            .resource-image {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16/9;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .resource-actions {
+                flex-direction: column;
+            }
+            
+            .resource-actions .btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .logout-text {
+                display: none;
+            }
+            
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .modal-content {
+                padding: 10px;
+            }
+            
+            .video-info {
+                padding: 15px 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">Student Dashboard</div>
+        <button class="navbar-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="navbar-links">
+            <a href="student.html" data-section="courses">My Courses</a>
+            <a href="resources.html" class="active" data-section="resources">Resources</a>
+            <a href="request_papers.html" data-section="requests">Request Papers</a>
+            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span class="logout-text">Logout</span></a>
+        </div>
+    </nav>
+    
+    <!-- Resources Section -->
+    <section id="resources-section" class="content-section active">
+        <div class="section-header">
+            <h2>Available Resources</h2>
+            <div class="mobile-filters-toggle">
+                <button id="filter-toggle-btn"><i class="fas fa-filter"></i> Filters</button>
+            </div>
+        </div>
+        
+        <div class="filter-options" id="filter-options">
+            <div class="filter-group">
+                <label for="resource-type">Resource Type</label>
+                <select id="resource-type">
+                    <option value="all">All Resources</option>
+                    <option value="video">Videos</option>
+                    <option value="document">Past Papers</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="resource-course">Paper Type</label>
+                <select id="resource-course">
+                    <option value="all">All Papers</option>
+                    <option value="paper1">Paper 1</option>
+                    <option value="paper2">Paper 2</option>
+                </select>
+            </div>
+            
+            <div class="filter-group search-group">
+                <label for="resource-search">Search</label>
+                <div class="search-input-container">
+                    <input type="text" id="resource-search" placeholder="Search resources...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="resource-grid" id="resource-container">
+            <!-- Video Resources -->
+            <div class="resource-card video-resource" data-paper="paper1" data-type="video">
+                <div class="resource-image">
+                    <i class="fas fa-video"></i>
+                    <div class="duration-badge">45 min</div>
+                </div>
+                <div class="resource-info">
+                    <h3 class="resource-title">Statistics</h3>
+                    <div class="resource-meta">
+                        <span><i class="fas fa-clock"></i> 45 min</span>
+                        <span class="paper-badge">Paper 1</span>
+                    </div>
+                    <p class="resource-description">Learn Statistics.</p>
+                    <div class="resource-actions">
+                        <button class="btn btn-primary watch-btn" data-video="stats_video.mp4" data-title="Statistics" data-description="Learn Statistics.">
+                            <i class="fas fa-play"></i> Watch
+                        </button>
+                        <button class="btn btn-outline download-btn" data-file="stats_video.mp4">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resource-card video-resource" data-paper="paper2" data-type="video">
+                <div class="resource-image">
+                    <i class="fas fa-video"></i>
+                    <div class="duration-badge">45 min</div>
+                </div>
+                <div class="resource-info">
+                    <h3 class="resource-title">Analytical Geometry</h3>
+                    <div class="resource-meta">
+                        <span><i class="fas fa-clock"></i> 45 min</span>
+                        <span class="paper-badge">Paper 2</span>
+                    </div>
+                    <p class="resource-description">Learn Analytical Geometry.</p>
+                    <div class="resource-actions">
+                        <button class="btn btn-primary watch-btn" data-video="geometry_video.mp4" data-title="Analytical Geometry" data-description="Learn Analytical Geometry.">
+                            <i class="fas fa-play"></i> Watch
+                        </button>
+                        <button class="btn btn-outline download-btn" data-file="geometry_video.mp4">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resource-card video-resource" data-paper="paper2" data-type="video">
+                <div class="resource-image">
+                    <i class="fas fa-video"></i>
+                    <div class="duration-badge">45 min</div>
+                </div>
+                <div class="resource-info">
+                    <h3 class="resource-title">Trigonometry</h3>
+                    <div class="resource-meta">
+                        <span><i class="fas fa-clock"></i> 45 min</span>
+                        <span class="paper-badge">Paper 2</span>
+                    </div>
+                    <p class="resource-description">Learn Trigonometry.</p>
+                    <div class="resource-actions">
+                        <button class="btn btn-primary watch-btn" data-video="trigonometry_video.mp4" data-title="Trigonometry" data-description="Learn Trigonometry.">
+                            <i class="fas fa-play"></i> Watch
+                        </button>
+                        <button class="btn btn-outline download-btn" data-file="trigonometry_video.mp4">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resource-card video-resource" data-paper="paper1" data-type="video">
+                <div class="resource-image">
+                    <i class="fas fa-video"></i>
+                    <div class="duration-badge">45 min</div>
+                </div>
+                <div class="resource-info">
+                    <h3 class="resource-title">Probability</h3>
+                    <div class="resource-meta">
+                        <span><i class="fas fa-clock"></i> 45 min</span>
+                        <span class="paper-badge">Paper 1</span>
+                    </div>
+                    <p class="resource-description">Learn Probability.</p>
+                    <div class="resource-actions">
+                        <button class="btn btn-primary watch-btn" data-video="probability_video.mp4" data-title="Probability" data-description="Learn Probability.">
+                            <i class="fas fa-play"></i> Watch
+                        </button>
+                        <button class="btn btn-outline download-btn" data-file="probability_video.mp4">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Document Resources -->
+            <div class="resource-card document-resource" data-paper="paper1" data-type="document">
+                <div class="resource-image">
+                    <i class="fas fa-file-pdf"></i>
+                    <div class="document-badge">PDF</div>
+                </div>
+                <div class="resource-info">
+                    <h3 class="resource-title">Mathematics Paper 1</h3>
+                    <div class="resource-meta">
+                        <span><i class="fas fa-file-alt"></i> PDF</span>
+                        <span class="paper-badge">Paper 1</span>
+                        <span>2024</span>
+                    </div>
+                    <p class="resource-description">Gauteng June 2024</p>
+                    <div class="resource-actions">
+                        <button class="btn btn-primary view-btn" data-pdf="math_paper1.pdf" data-title="Mathematics Paper 1 (Gauteng June 2024)" data-file="math_paper1.pdf">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-outline download-btn" data-file="math_paper1.pdf">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resource-card document-resource" data-paper="paper2" data-type="document">
+                <div class="resource-image">
+                    <i class="fas fa-file-pdf"></i>
+                    <div class="document-badge">PDF</div>
+                </div>
+                <div class="resource-info">
+                    <h3 class="resource-title">Mathematics Paper 2</h3>
+                    <div class="resource-meta">
+                        <span><i class="fas fa-file-alt"></i> PDF</span>
+                        <span class="paper-badge">Paper 2</span>
+                        <span>2024</span>
+                    </div>
+                    <p class="resource-description">Limpopo November 2024</p>
+                    <div class="resource-actions">
+                        <button class="btn btn-primary view-btn" data-pdf="math_paper2.pdf" data-title="Mathematics Paper 2 (Limpopo November 2024)" data-file="math_paper2.pdf">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-outline download-btn" data-file="math_paper2.pdf">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="video-container">
+                <video id="modal-video" controls>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="video-info">
+                <h3 id="video-title"></h3>
+                <p id="video-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Viewer Modal -->
+    <div id="pdf-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="pdf-header">
+                <h3 id="pdf-title"></h3>
+                <button id="download-pdf-btn" class="btn btn-outline">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+            <iframe id="pdf-viewer" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const navbarToggle = document.querySelector('.navbar-toggle');
+        const navbarLinks = document.querySelector('.navbar-links');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const resourceContainer = document.getElementById('resource-container');
+        const filterOptions = document.getElementById('filter-options');
+        const filterToggleBtn = document.getElementById('filter-toggle-btn');
+
+        // Modal elements
+        const videoModal = document.getElementById('video-modal');
+        const modalVideo = document.getElementById('modal-video');
+        const videoTitle = document.getElementById('video-title');
+        const videoDescription = document.getElementById('video-description');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const pdfModal = document.getElementById('pdf-modal');
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pdfTitle = document.getElementById('pdf-title');
+        const downloadPdfBtn = document.getElementById('download-pdf-btn');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Initialize filters
+            filterResources();
+        });
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Navigation toggle for mobile
+            navbarToggle.addEventListener('click', () => {
+                navbarLinks.classList.toggle('active');
+            });
+            
+            // Filter toggle for mobile
+            filterToggleBtn.addEventListener('click', () => {
+                filterOptions.classList.toggle('active');
+            });
+            
+            // Search functionality
+            document.getElementById('resource-search').addEventListener('input', function() {
+                filterResources();
+            });
+            
+            // Filter functionality
+            document.getElementById('resource-type').addEventListener('change', filterResources);
+            document.getElementById('resource-course').addEventListener('change', filterResources);
+            
+            // Video modal
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.watch-btn')) {
+                    const btn = e.target.closest('.watch-btn');
+                    openVideoModal(
+                        btn.dataset.video,
+                        btn.dataset.title,
+                        btn.dataset.description
+                    );
+                }
+                
+                if (e.target.closest('.view-btn')) {
+                    const btn = e.target.closest('.view-btn');
+                    openPdfModal(
+                        btn.dataset.pdf,
+                        btn.dataset.title,
+                        btn.dataset.file
+                    );
+                }
+                
+                if (e.target.closest('.download-btn')) {
+                    const btn = e.target.closest('.download-btn');
+                    downloadFile(btn.dataset.file);
+                }
+            });
+            
+            // Close modals
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', closeModals);
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === videoModal || e.target === pdfModal) {
+                    closeModals();
+                }
+            });
+            
+            // PDF download button in modal
+            downloadPdfBtn.addEventListener('click', function() {
+                downloadFile(this.dataset.file);
+            });
+            
+            // Logout button
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear any session data
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    
+                    // Redirect to login page
+                    window.location.href = 'studentLog_in.html';
+                }
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', handleResize);
+        }
+
+        // Filter resources based on selections
+        function filterResources() {
+            const searchTerm = document.getElementById('resource-search').value.toLowerCase();
+            const typeValue = document.getElementById('resource-type').value;
+            const courseValue = document.getElementById('resource-course').value;
+            const resourceCards = document.querySelectorAll('#resource-container .resource-card');
+            
+            resourceCards.forEach(card => {
+                const type = card.dataset.type;
+                const paper = card.dataset.paper;
+                const title = card.querySelector('.resource-title').textContent.toLowerCase();
+                const description = card.querySelector('.resource-description').textContent.toLowerCase();
+                
+                const paperMatch = courseValue === 'all' || 
+                                 (courseValue === 'paper1' && paper === 'paper1') ||
+                                 (courseValue === 'paper2' && paper === 'paper2');
+                
+                const typeMatch = typeValue === 'all' || typeValue === type;
+                const searchMatch = searchTerm === '' || 
+                                  title.includes(searchTerm) || 
+                                  description.includes(searchTerm);
+                
+                if (typeMatch && paperMatch && searchMatch) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Open video modal
+        function openVideoModal(videoSrc, title, description) {
+            // Stop any currently playing video
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            
+            // Set new video source
+            modalVideo.src = videoSrc;
+            videoTitle.textContent = title;
+            videoDescription.textContent = description;
+            
+            // Show modal
+            videoModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Play video when ready
+            modalVideo.oncanplay = function() {
+                modalVideo.play().catch(e => console.log('Autoplay prevented:', e));
+            };
+        }
+
+        // Open PDF modal
+        function openPdfModal(pdfSrc, title, downloadUrl) {
+            pdfViewer.src = pdfSrc;
+            pdfTitle.textContent = title;
+            downloadPdfBtn.dataset.file = downloadUrl;
+            
+            // Show modal
+            pdfModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Adjust iframe height
+            adjustPdfViewerHeight();
+        }
+
+        // Close all modals
+        function closeModals() {
+            videoModal.style.display = 'none';
+            pdfModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Pause video
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+        }
+
+        // Download file
+        function downloadFile(fileUrl) {
+            const a = document.createElement('a');
+            a.href = fileUrl;
+            a.download = fileUrl.split('/').pop();
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Handle window resize
+        function handleResize() {
+            // Close mobile menu if screen is large enough
+            if (window.innerWidth > 768) {
+                navbarLinks.classList.remove('active');
+                filterOptions.classList.remove('active');
+            }
+            
+            // Adjust iframe height for PDF viewer
+            if (pdfModal.style.display === 'flex') {
+                adjustPdfViewerHeight();
+            }
+        }
+
+        // Adjust PDF viewer height
+        function adjustPdfViewerHeight() {
+            const modalContent = document.querySelector('.modal-content');
+            const headerHeight = document.querySelector('.pdf-header').offsetHeight;
+            const availableHeight = window.innerHeight - headerHeight - 60; // 60px for padding/margins
+            
+            pdfViewer.style.height = `${availableHeight}px`;
+        }
+    </script>
+</body>
+</html>

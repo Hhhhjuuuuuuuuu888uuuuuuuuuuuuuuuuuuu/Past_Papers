@@ -1,0 +1,548 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability Learning Portal</title>
+    <style>
+        :root {
+            --primary-color: #9b59b6;
+            --secondary-color: #8e44ad;
+            --accent-color: #e67e22;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background-color: #d35400;
+            transform: translateY(-2px);
+        }
+
+        .content-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .main-content {
+            flex: 2;
+            min-width: 300px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .resources {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .resource-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .resource-item:hover {
+            transform: translateX(5px);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .resource-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-download {
+            background-color: var(--dark-color);
+            color: white;
+        }
+
+        .btn-download:hover {
+            background-color: #1a252f;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .video-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .video-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .content-section {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .video-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .probability-example {
+            background-color: #f9f9f9;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Probability Fundamentals</h1>
+            <p>Master the mathematics of chance and uncertainty</p>
+            <button class="back-btn" onclick="window.location.href='student.html'">Back to Student Portal</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content-section">
+            <div class="main-content">
+                <h2>Understanding Probability</h2>
+                <p>Probability is a measure of the likelihood that an event will occur. It quantifies uncertainty and is expressed as a number between 0 (impossible event) and 1 (certain event).</p>
+                
+                <div class="probability-example">
+                    <div class="example-title">Basic Probability Formula</div>
+                    <p>P(E) = Number of favorable outcomes / Total number of possible outcomes</p>
+                    <p>Example: The probability of rolling a 3 on a fair six-sided die is 1/6 ≈ 0.1667 or 16.67%.</p>
+                </div>
+                
+                <h3>Key Concepts</h3>
+                <ul>
+                    <li><strong>Sample Space:</strong> The set of all possible outcomes (e.g., {1,2,3,4,5,6} for a die roll)</li>
+                    <li><strong>Event:</strong> A subset of the sample space (e.g., rolling an even number: {2,4,6})</li>
+                    <li><strong>Independent Events:</strong> Events where the occurrence of one doesn't affect the other</li>
+                    <li><strong>Conditional Probability:</strong> Probability of an event given that another event has occurred</li>
+                </ul>
+                
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/KzfWUEJjG18" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <h2>Probability Distributions</h2>
+                <p>A probability distribution describes how probabilities are distributed over the values of a random variable.</p>
+                
+                <div class="probability-example">
+                    <div class="example-title">Common Distributions</div>
+                    <p><strong>Discrete:</strong> Binomial, Poisson, Geometric</p>
+                    <p><strong>Continuous:</strong> Normal, Uniform, Exponential</p>
+                </div>
+                
+                <h3>Bayes' Theorem</h3>
+                <p>Bayes' Theorem describes the probability of an event based on prior knowledge of conditions that might be related to the event.</p>
+                <p>Formula: P(A|B) = [P(B|A) × P(A)] / P(B)</p>
+            </div>
+            
+            <div class="sidebar">
+                <div class="resources">
+                    <h2>Learning Resources</h2>
+                    <div class="resource-item">
+                        <div class="resource-title">Probability Basics PDF</div>
+                        <div class="resource-description">Introduction to probability concepts</div>
+                        <div class="resource-actions">
+                            <button class="btn btn-view" onclick="openPdfModal('probability-basics.pdf')">View</button>
+                            <a href="probability-basics.pdf" download class="btn btn-download">Download</a>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-title">Probability Distributions Guide</div>
+                        <div class="resource-description">Detailed explanation of common distributions</div>
+                        <div class="resource-actions">
+                            <button class="btn btn-view" onclick="openPdfModal('probability-distributions.pdf')">View</button>
+                            <a href="probability-distributions.pdf" download class="btn btn-download">Download</a>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-title">Bayesian Statistics Primer</div>
+                        <div class="resource-description">Understanding Bayes' Theorem and applications</div>
+                        <div class="resource-actions">
+                            <button class="btn btn-view" onclick="openPdfModal('bayesian-primer.pdf')">View</button>
+                            <a href="bayesian-primer.pdf" download class="btn btn-download">Download</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resources">
+                    <h2>Practice Exercises</h2>
+                    <div class="resource-item">
+                        <div class="resource-title">Basic Probability Problems</div>
+                        <div class="resource-description">With step-by-step solutions</div>
+                        <div class="resource-actions">
+                            <button class="btn btn-view" onclick="openPdfModal('basic-probability-problems.pdf')">View</button>
+                            <a href="basic-probability-problems.pdf" download class="btn btn-download">Download</a>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-title">Advanced Probability Challenges</div>
+                        <div class="resource-description">Conditional probability and Bayes' Theorem</div>
+                        <div class="resource-actions">
+                            <button class="btn btn-view" onclick="openPdfModal('advanced-probability-challenges.pdf')">View</button>
+                            <a href="advanced-probability-challenges.pdf" download class="btn btn-download">Download</a>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-title">Probability Distribution Problems</div>
+                        <div class="resource-description">Working with different distributions</div>
+                        <div class="resource-actions">
+                            <button class="btn btn-view" onclick="openPdfModal('distribution-problems.pdf')">View</button>
+                            <a href="distribution-problems.pdf" download class="btn btn-download">Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Recommended Video Tutorials</h2>
+        <div class="video-list">
+            <div class="video-card" onclick="playVideo('https://www.youtube.com/embed/KzfWUEJjG18')">
+                <div class="video-thumbnail">
+                    <img src="https://img.youtube.com/vi/KzfWUEJjG18/mqdefault.jpg" alt="Probability Intro">
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Probability Fundamentals</div>
+                    <div class="video-desc">Complete introduction to probability concepts</div>
+                </div>
+            </div>
+            <div class="video-card" onclick="playVideo('https://www.youtube.com/embed/uzkc-qNVoOk')">
+                <div class="video-thumbnail">
+                    <img src="https://img.youtube.com/vi/uzkc-qNVoOk/mqdefault.jpg" alt="Bayes Theorem">
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Bayes' Theorem Explained</div>
+                    <div class="video-desc">Understanding conditional probability</div>
+                </div>
+            </div>
+            <div class="video-card" onclick="playVideo('https://www.youtube.com/embed/3v9w79NhsfI')">
+                <div class="video-thumbnail">
+                    <img src="https://img.youtube.com/vi/3v9w79NhsfI/mqdefault.jpg" alt="Probability Distributions">
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Probability Distributions</div>
+                    <div class="video-desc">Normal, Binomial, Poisson and more</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PDF Modal -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <iframe id="pdfViewer" class="pdf-viewer" src=""></iframe>
+        </div>
+    </div>
+    
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="video-container">
+                <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Probability Learning Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to open PDF in modal
+        function openPdfModal(pdfUrl) {
+            const modal = document.getElementById('pdfModal');
+            const pdfViewer = document.getElementById('pdfViewer');
+            
+            pdfViewer.src = pdfUrl;
+            modal.style.display = 'block';
+            
+            // Close modal when clicking outside content
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            }
+        }
+        
+        // Function to play video in modal
+        function playVideo(videoUrl) {
+            const modal = document.getElementById('videoModal');
+            const videoPlayer = document.getElementById('videoPlayer');
+            
+            videoPlayer.src = videoUrl;
+            modal.style.display = 'block';
+            
+            // Close modal when clicking outside content
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            }
+        }
+        
+        // Function to close modal
+        function closeModal() {
+            const pdfModal = document.getElementById('pdfModal');
+            const videoModal = document.getElementById('videoModal');
+            const pdfViewer = document.getElementById('pdfViewer');
+            const videoPlayer = document.getElementById('videoPlayer');
+            
+            pdfModal.style.display = 'none';
+            videoModal.style.display = 'none';
+            pdfViewer.src = '';
+            videoPlayer.src = '';
+        }
+        
+        // Responsive adjustments
+        function adjustLayout() {
+            // Additional responsive adjustments can be added here if needed
+        }
+        
+        // Initial adjustment and event listener for resize
+        adjustLayout();
+        window.addEventListener('resize', adjustLayout);
+
+        // Interactive probability calculator
+        function calculateProbability() {
+            const favorable = parseFloat(document.getElementById('favorable-outcomes').value);
+            const total = parseFloat(document.getElementById('total-outcomes').value);
+            
+            if (isNaN(favorable) || isNaN(total) || total === 0) {
+                document.getElementById('probability-result').textContent = 'Please enter valid numbers';
+                return;
+            }
+            
+            const probability = favorable / total;
+            document.getElementById('probability-result').textContent = 
+                `Probability: ${probability.toFixed(4)} or ${(probability*100).toFixed(2)}%`;
+        }
+    </script>
+</body>
+</html>

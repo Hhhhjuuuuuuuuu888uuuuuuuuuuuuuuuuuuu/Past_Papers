@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Mathematics Learning Portal</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background-color: #fff;
+            color: #2c3e50;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Introduction Section */
+        .intro {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .intro h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .intro p {
+            margin-bottom: 1rem;
+        }
+
+        /* Materials Section */
+        .materials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            flex: 1 1 100%;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eaeaea;
+        }
+
+        /* Documents Section */
+        .documents-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .document-card {
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 1.2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-card h3 {
+            color: #3498db;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .document-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-download {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background-color: #219653;
+        }
+
+        /* Videos Section */
+        .videos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            margin-top: 0.8rem;
+        }
+
+        .video-info h3 {
+            color: #3498db;
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+
+        .video-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Calculators Section */
+        .calculators-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .calculator-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .calculator-card h3 {
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .calculate-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .calculate-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Practice Problems Section */
+        .problems-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .problem-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .problem-card h3 {
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card p {
+            margin-bottom: 1rem;
+        }
+
+        .solution {
+            display: none;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+
+        .show-solution {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .show-solution:hover {
+            background-color: #2980b9;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            margin-top: 1rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .section {
+                flex: 1 1 calc(50% - 1.5rem);
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .materials {
+                flex-wrap: nowrap;
+            }
+
+            .section {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Financial Mathematics</h1>
+        <p>Master the mathematics of finance, investments, and risk management</p>
+        <button class="back-btn" id="backBtn">Return to Student Dashboard</button>
+    </header>
+
+    <div class="container">
+        <section class="intro">
+            <h2>Introduction to Financial Mathematics</h2>
+            <p>Financial mathematics is the application of mathematical methods to financial problems. It draws on tools from probability, statistics, stochastic processes, and economic theory to solve problems related to finance, including the valuation of derivatives, risk management, and portfolio optimization.</p>
+            <p>In this module, you'll learn about time value of money, interest rates, annuities, loans, investments, and basic derivatives. Use the calculators, resources, and practice problems below to enhance your understanding.</p>
+        </section>
+
+        <div class="materials">
+            <section class="section">
+                <h2>Financial Calculators</h2>
+                <div class="calculators-container" id="calculatorsContainer">
+                    <!-- Calculators will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Learning Documents</h2>
+                <div class="documents-list" id="documentsList">
+                    <!-- Documents will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Video Lectures</h2>
+                <div class="videos-container" id="videosContainer">
+                    <!-- Videos will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Practice Problems</h2>
+                <div class="problems-container" id="problemsContainer">
+                    <!-- Practice problems will be loaded here by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Document Viewer Modal -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modalTitle">Document Viewer</h2>
+            <div class="modal-body" id="modalBody">
+                <iframe id="documentViewer" style="width:100%; height:500px; border:none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Document data - Financial Math specific
+        const documents = [
+            {
+                id: 1,
+                title: "Time Value of Money",
+                description: "Fundamentals of present and future value calculations",
+                fileUrl: "https://example.com/docs/time-value-money.pdf",
+                previewUrl: "https://docs.google.com/viewer?url=https://example.com/docs/time-value-money.pdf",
+                fileType: "pdf",
+                size: "2.5 MB"
+            },
+            {
+                id: 2,
+                title: "Interest Rate Mathematics",
+                description: "Simple vs. compound interest, effective rates, and conversions",
+                fileUrl: "https://example.com/docs/interest-rates.pdf",
+                previewUrl: "https://docs.google.com/viewer?url=https://example.com/docs/interest-rates.pdf",
+                fileType: "pdf",
+                size: "3.1 MB"
+            },
+            {
+                id: 3,
+                title: "Annuities and Loans",
+                description: "Complete guide to annuity calculations and loan amortization",
+                fileUrl: "https://example.com/docs/annuities-loans.pdf",
+                previewUrl: "https://docs.google.com/viewer?url=https://example.com/docs/annuities-loans.pdf",
+                fileType: "pdf",
+                size: "3.8 MB"
+            },
+            {
+                id: 4,
+                title: "Investment Mathematics",
+                description: "Portfolio returns, risk measures, and performance evaluation",
+                fileUrl: "https://example.com/docs/investment-math.pdf",
+                previewUrl: "https://docs.google.com/viewer?url=https://example.com/docs/investment-math.pdf",
+                fileType: "pdf",
+                size: "4.2 MB"
+            }
+        ];
+
+        // Video data - Financial Math specific
+        const videos = [
+            {
+                id: 1,
+                title: "Time Value of Money Explained",
+                description: "Understanding present and future value concepts",
+                youtubeId: "m5Jd7H6X7WE",
+                duration: "14:20"
+            },
+            {
+                id: 2,
+                title: "Compound Interest Calculations",
+                description: "How to calculate and compare different compounding periods",
+                youtubeId: "qsm4gDgF5K8",
+                duration: "12:45"
+            },
+            {
+                id: 3,
+                title: "Annuities: Ordinary vs. Due",
+                description: "Calculating payments and values for different annuity types",
+                youtubeId: "B7dGNWVgud0",
+                duration: "18:30"
+            },
+            {
+                id: 4,
+                title: "Loan Amortization Schedules",
+                description: "Creating and understanding loan repayment tables",
+                youtubeId: "f6H9K6kEGWc",
+                duration: "16:15"
+            }
+        ];
+
+        // Practice problems data
+        const problems = [
+            {
+                id: 1,
+                title: "Future Value Calculation",
+                question: "Calculate the future value of $5,000 invested at 6% annual interest compounded quarterly for 5 years.",
+                solution: "FV = PV × (1 + r/n)^(n×t) = 5000 × (1 + 0.06/4)^(4×5) = 5000 × (1.015)^20 ≈ $6,734.28"
+            },
+            {
+                id: 2,
+                title: "Effective Annual Rate",
+                question: "What is the effective annual rate for an investment earning 5% compounded monthly?",
+                solution: "EAR = (1 + r/n)^n - 1 = (1 + 0.05/12)^12 - 1 ≈ 1.05116 - 1 ≈ 0.05116 or 5.116%"
+            },
+            {
+                id: 3,
+                title: "Annuity Payment",
+                question: "How much would you need to deposit each month to accumulate $100,000 in 10 years at 4% annual interest?",
+                solution: "Using the future value of annuity formula: PMT = FV / [((1 + r)^n - 1)/r] = 100,000 / [((1 + 0.04/12)^120 - 1)/(0.04/12)] ≈ $671.33 per month"
+            },
+            {
+                id: 4,
+                title: "Loan Amortization",
+                question: "Calculate the monthly payment for a $200,000 mortgage at 3.5% interest for 30 years.",
+                solution: "PMT = PV × [r(1 + r)^n]/[(1 + r)^n - 1] = 200,000 × [(0.035/12)(1 + 0.035/12)^360]/[(1 + 0.035/12)^360 - 1] ≈ $898.09 per month"
+            }
+        ];
+
+        // DOM Elements
+        const documentsList = document.getElementById('documentsList');
+        const videosContainer = document.getElementById('videosContainer');
+        const problemsContainer = document.getElementById('problemsContainer');
+        const calculatorsContainer = document.getElementById('calculatorsContainer');
+        const backBtn = document.getElementById('backBtn');
+        const documentModal = document.getElementById('documentModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const documentViewer = document.getElementById('documentViewer');
+        const closeBtn = document.querySelector('.close-btn');
+
+        // Load documents
+        function loadDocuments() {
+            documentsList.innerHTML = '';
+            documents.forEach(doc => {
+                const docCard = document.createElement('div');
+                docCard.className = 'document-card';
+                docCard.innerHTML = `
+                    <h3>${doc.title}</h3>
+                    <p>${doc.description}</p>
+                    <p><small>File type: ${doc.fileType.toUpperCase()} | Size: ${doc.size}</small></p>
+                    <div class="document-actions">
+                        <button class="btn btn-view" onclick="viewDocument('${doc.title}', '${doc.previewUrl}')">View</button>
+                        <a href="${doc.fileUrl}" download class="btn btn-download">Download</a>
+                    </div>
+                `;
+                documentsList.appendChild(docCard);
+            });
+        }
+
+        // Load videos
+        function loadVideos() {
+            videosContainer.innerHTML = '';
+            videos.forEach(video => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'video-card';
+                videoCard.innerHTML = `
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/${video.youtubeId}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>${video.title}</h3>
+                        <p>${video.description} <br><small>Duration: ${video.duration}</small></p>
+                    </div>
+                `;
+                videosContainer.appendChild(videoCard);
+            });
+        }
+
+        // Load practice problems
+        function loadProblems() {
+            problemsContainer.innerHTML = '';
+            problems.forEach(problem => {
+                const problemCard = document.createElement('div');
+                problemCard.className = 'problem-card';
+                problemCard.innerHTML = `
+                    <h3>${problem.title}</h3>
+                    <p>${problem.question}</p>
+                    <button class="show-solution" onclick="toggleSolution('solution-${problem.id}')">Show Solution</button>
+                    <div class="solution" id="solution-${problem.id}">
+                        <strong>Solution:</strong> ${problem.solution}
+                    </div>
+                `;
+                problemsContainer.appendChild(problemCard);
+            });
+        }
+
+        // Load financial calculators
+        function loadCalculators() {
+            calculatorsContainer.innerHTML = `
+                <div class="calculator-card">
+                    <h3>Future Value Calculator</h3>
+                    <div class="form-group">
+                        <label for="fv-present-value">Present Value ($)</label>
+                        <input type="number" id="fv-present-value" placeholder="1000">
+                    </div>
+                    <div class="form-group">
+                        <label for="fv-interest-rate">Annual Interest Rate (%)</label>
+                        <input type="number" id="fv-interest-rate" placeholder="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="fv-years">Years</label>
+                        <input type="number" id="fv-years" placeholder="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="fv-compounding">Compounding Periods per Year</label>
+                        <input type="number" id="fv-compounding" placeholder="12" value="1">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateFutureValue()">Calculate</button>
+                    <div class="result" id="fv-result"></div>
+                </div>
+
+                <div class="calculator-card">
+                    <h3>Loan Payment Calculator</h3>
+                    <div class="form-group">
+                        <label for="loan-amount">Loan Amount ($)</label>
+                        <input type="number" id="loan-amount" placeholder="200000">
+                    </div>
+                    <div class="form-group">
+                        <label for="loan-rate">Annual Interest Rate (%)</label>
+                        <input type="number" id="loan-rate" placeholder="3.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="loan-term">Loan Term (Years)</label>
+                        <input type="number" id="loan-term" placeholder="30">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateLoanPayment()">Calculate</button>
+                    <div class="result" id="loan-result"></div>
+                </div>
+
+                <div class="calculator-card">
+                    <h3>Effective Annual Rate</h3>
+                    <div class="form-group">
+                        <label for="ear-nominal-rate">Nominal Annual Rate (%)</label>
+                        <input type="number" id="ear-nominal-rate" placeholder="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="ear-compounding">Compounding Periods per Year</label>
+                        <input type="number" id="ear-compounding" placeholder="12">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateEffectiveRate()">Calculate</button>
+                    <div class="result" id="ear-result"></div>
+                </div>
+
+                <div class="calculator-card">
+                    <h3>Annuity Payment Calculator</h3>
+                    <div class="form-group">
+                        <label for="annuity-fv">Future Value Goal ($)</label>
+                        <input type="number" id="annuity-fv" placeholder="100000">
+                    </div>
+                    <div class="form-group">
+                        <label for="annuity-rate">Annual Interest Rate (%)</label>
+                        <input type="number" id="annuity-rate" placeholder="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="annuity-years">Years to Accumulate</label>
+                        <input type="number" id="annuity-years" placeholder="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="annuity-periods">Payments per Year</label>
+                        <input type="number" id="annuity-periods" placeholder="12">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateAnnuityPayment()">Calculate</button>
+                    <div class="result" id="annuity-result"></div>
+                </div>
+            `;
+        }
+
+        // Calculator functions
+        function calculateFutureValue() {
+            const pv = parseFloat(document.getElementById('fv-present-value').value);
+            const r = parseFloat(document.getElementById('fv-interest-rate').value) / 100;
+            const t = parseFloat(document.getElementById('fv-years').value);
+            const n = parseFloat(document.getElementById('fv-compounding').value);
+            
+            if (isNaN(pv)) {
+                alert("Please enter a valid present value");
+                return;
+            }
+            
+            const fv = pv * Math.pow(1 + r/n, n*t);
+            document.getElementById('fv-result').innerHTML = `Future Value: $${fv.toFixed(2)}`;
+        }
+
+        function calculateLoanPayment() {
+            const pv = parseFloat(document.getElementById('loan-amount').value);
+            const r = parseFloat(document.getElementById('loan-rate').value) / 100;
+            const t = parseFloat(document.getElementById('loan-term').value);
+            const n = 12; // Monthly payments
+            
+            if (isNaN(pv)) {
+                alert("Please enter a valid loan amount");
+                return;
+            }
+            
+            const monthlyRate = r / n;
+            const payments = t * n;
+            const pmt = pv * (monthlyRate * Math.pow(1 + monthlyRate, payments)) / (Math.pow(1 + monthlyRate, payments) - 1);
+            document.getElementById('loan-result').innerHTML = `Monthly Payment: $${pmt.toFixed(2)}`;
+        }
+
+        function calculateEffectiveRate() {
+            const nominalRate = parseFloat(document.getElementById('ear-nominal-rate').value) / 100;
+            const compounding = parseFloat(document.getElementById('ear-compounding').value);
+            
+            if (isNaN(nominalRate)) {
+                alert("Please enter a valid interest rate");
+                return;
+            }
+            
+            const ear = (Math.pow(1 + nominalRate/compounding, compounding) - 1) * 100;
+            document.getElementById('ear-result').innerHTML = `Effective Annual Rate: ${ear.toFixed(3)}%`;
+        }
+
+        function calculateAnnuityPayment() {
+            const fv = parseFloat(document.getElementById('annuity-fv').value);
+            const r = parseFloat(document.getElementById('annuity-rate').value) / 100;
+            const t = parseFloat(document.getElementById('annuity-years').value);
+            const n = parseFloat(document.getElementById('annuity-periods').value);
+            
+            if (isNaN(fv)) {
+                alert("Please enter a valid future value goal");
+                return;
+            }
+            
+            const periodicRate = r / n;
+            const periods = t * n;
+            const pmt = fv / ((Math.pow(1 + periodicRate, periods) - 1) / periodicRate);
+            document.getElementById('annuity-result').innerHTML = `Required Payment: $${pmt.toFixed(2)} per period`;
+        }
+
+        // Toggle solution visibility
+        function toggleSolution(id) {
+            const solution = document.getElementById(id);
+            const button = solution.previousElementSibling;
+            
+            if (solution.style.display === 'block') {
+                solution.style.display = 'none';
+                button.textContent = 'Show Solution';
+            } else {
+                solution.style.display = 'block';
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // View document in modal
+        function viewDocument(title, url) {
+            modalTitle.textContent = title;
+            documentViewer.src = url;
+            documentModal.style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            documentModal.style.display = 'none';
+            documentViewer.src = '';
+        }
+
+        // Event Listeners
+        backBtn.addEventListener('click', () => {
+            window.location.href = 'student.html';
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === documentModal) {
+                closeModal();
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDocuments();
+            loadVideos();
+            loadProblems();
+            loadCalculators();
+        });
+    </script>
+</body>
+</html>

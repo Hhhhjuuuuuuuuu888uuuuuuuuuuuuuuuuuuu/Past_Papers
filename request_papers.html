@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Request Papers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="student.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">Student Dashboard</div>
+        <div class="navbar-links">
+            <a href="student.html" data-section="courses">My Topics</a>
+            <a href="resources.html" data-section="resources">Resources</a>
+            <a href="request_papers.html" class="active" data-section="requests">Request Papers</a>
+            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+        <div class="navbar-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <section class="request-section">
+            <h1><i class="fas fa-file-alt"></i> Request Question Papers</h1>
+            
+            <!-- Request Form -->
+            <div class="form-container">
+                <form id="request-form" action="https://formsubmit.co/collinsmaropeng2@gmail.com" method="POST">
+                    <input type="hidden" name="_next" value="request_confirmation.html">
+                    <input type="hidden" name="_subject" value="New Paper Request">
+                    <input type="hidden" name="_template" value="table">
+                    
+                    <div class="form-group">
+                        <label for="paper-course">Course:</label>
+                        <select id="paper-course" name="course" required>
+                            <option value="">Select a paper</option>
+                            <option value="paper1">Paper 1</option>
+                            <option value="paper2">Paper 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="paper-title">Paper Title:</label>
+                        <input type="text" id="paper-title" name="title" placeholder="e.g., November Exam 2023" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paper-year">Year:</label>
+                        <input type="number" id="paper-year" name="year" min="2000" max="2025" placeholder="e.g., 2023" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paper-description">Additional Details:</label>
+                        <textarea id="paper-description" name="description" placeholder="Any specific details about the paper you're requesting..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Request</button>
+                </form>
+                <div id="request-message" class="message"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="request_papers.js"></script>
+</body>
+</html>

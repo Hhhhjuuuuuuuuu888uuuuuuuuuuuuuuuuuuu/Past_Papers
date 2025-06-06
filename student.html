@@ -3,17 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
+    <title>Student Dashboard - My Topics</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="student.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-links a.active {
+            background-color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        /* Filter and Search */
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .filter-options select, 
+        .filter-options input {
+            padding: 0.7rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .filter-options select {
+            min-width: 200px;
+            cursor: pointer;
+        }
+
+        .filter-options input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .filter-options select:focus, 
+        .filter-options input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Course Grid */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Course Card */
+        .course-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-image {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .course-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .course-progress {
+            height: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        /* Course Details */
+        .course-details {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .modal-message {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .modal-btn {
+            background-color: var(--success-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-btn:hover {
+            background-color: #27ae60;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .navbar-links {
+                width: 100%;
+                justify-content: space-between;
+                gap: 0.5rem;
+            }
+
+            .navbar-links a {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .filter-options {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-options select, 
+            .filter-options input {
+                width: 100%;
+            }
+
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .navbar-links {
+                flex-wrap: wrap;
+            }
+
+            .course-card {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-brand">Student Dashboard</div>
         <div class="navbar-links">
-            <a href="#" class="active" data-section="courses">My Courses</a>
-            <a href="#" data-section="resources">Resources</a>
-            <a href="#" data-section="requests">Request Papers</a>
+            <a href="student.html" class="active" data-section="courses">My Topics</a>
+            <a href="resources.html" data-section="resources">Resources</a>
+            <a href="request_papers.html" data-section="requests">Request Papers</a>
             <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </nav>
@@ -21,353 +389,293 @@
     <div class="container">
         <!-- Courses Section -->
         <section id="courses-section" class="content-section active">
-            <h2>My Courses</h2>
+            <h2>My Topics</h2>
             <div class="filter-options">
                 <select id="course-filter">
                     <option value="all">All Papers</option>
-                    <option value="current">Paper 1</option>
-                    <option value="completed">Paper 2</option>
+                    <option value="paper1">Paper 1</option>
+                    <option value="paper2">Paper 2</option>
                 </select>
                 <input type="text" id="course-search" placeholder="Search for Mathematics Topics...">
             </div>
             
             <div class="resource-grid" id="courses-container">
-                <!-- Course cards will be loaded here -->
-                <div class="course-card">
+                <!-- Algebra -->
+                <div class="course-card" data-paper="paper1">
                     <div class="resource-image">
                         <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
                         <h3 class="course-title">Algebra</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
-                            
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
                         <div class="course-progress">
                             <div class="progress-bar" style="width: 75%;"></div>
                         </div>
                         <div class="course-meta">
                             <span>Paper 1</span>
-                        
                         </div>
                         <div class="course-actions">
-                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-info-circle"></i>
-                                <details style="position: relative;">
-                                    Details of this topic and concepts which will be covered...
-                                </details>
+                            <button class="btn btn-primary continue-btn" data-page="algebra.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
                             </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers algebraic expressions, equations, and functions including linear, quadratic, and exponential functions.</p>
                         </div>
                     </div>
                 </div>
                 
-                      <div class="resource-grid" id="courses-container">
-                <!-- Course cards will be loaded here -->
-                <div class="course-card">
+                <!-- Sequence and Series -->
+                <div class="course-card" data-paper="paper1">
                     <div class="resource-image">
-                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
+                        <i class="fa-solid fa-xmark" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Algebra</h3>
+                        <h3 class="course-title">Sequence and Series</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
-                            
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
                         <div class="course-progress">
-                            <div class="progress-bar" style="width: 75%;"></div>
+                            <div class="progress-bar" style="width: 100%;"></div>
                         </div>
                         <div class="course-meta">
                             <span>Paper 1</span>
-                        
                         </div>
                         <div class="course-actions">
-                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-info-circle"></i>
-                                <details style="position: relative;">
-                                    Details of this topic and concepts which will be covered...
-                                </details>
+                            <button class="btn btn-primary continue-btn" data-page="sequences.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
                             </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers arithmetic and geometric sequences and series, including convergence and sum formulas.</p>
                         </div>
                     </div>
                 </div>
                 
-                     <div class="resource-grid" id="courses-container">
-                <!-- Course cards will be loaded here -->
-                <div class="course-card">
+                <!-- Functions -->
+                <div class="course-card" data-paper="paper1">
                     <div class="resource-image">
-                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
+                        <i class="fa-solid fa-f" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Algebra</h3>
+                        <h3 class="course-title">Functions</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
-                            
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
                         <div class="course-progress">
                             <div class="progress-bar" style="width: 75%;"></div>
                         </div>
                         <div class="course-meta">
                             <span>Paper 1</span>
-                        
                         </div>
                         <div class="course-actions">
-                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-info-circle"></i>
-                                <details style="position: relative;">
-                                    Details of this topic and concepts which will be covered...
-                                </details>
+                            <button class="btn btn-primary continue-btn" data-page="functions.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
                             </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers various types of functions including linear, quadratic, hyperbolic, and exponential functions.</p>
                         </div>
                     </div>
                 </div>
                 
-                
-                            <div class="resource-grid" id="courses-container">
-                <!-- Course cards will be loaded here -->
-                <div class="course-card">
+                <!-- Financial Mathematics -->
+                <div class="course-card" data-paper="paper1">
                     <div class="resource-image">
-                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
+                        <i class="fa-solid fa-coins" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Algebra</h3>
+                        <h3 class="course-title">Financial Mathematics</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
-                            
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
                         <div class="course-progress">
-                            <div class="progress-bar" style="width: 75%;"></div>
+                            <div class="progress-bar" style="width: 95%;"></div>
                         </div>
                         <div class="course-meta">
                             <span>Paper 1</span>
-                        
                         </div>
                         <div class="course-actions">
-                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-info-circle"></i>
-                                <details style="position: relative;">
-                                    Details of this topic and concepts which will be covered...
-                                </details>
+                            <button class="btn btn-primary continue-btn" data-page="financial_math.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
                             </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers simple and compound interest, annuities, loans, and investments.</p>
                         </div>
                     </div>
                 </div>
                 
-                            <div class="resource-grid" id="courses-container">
-                <!-- Course cards will be loaded here -->
-                <div class="course-card">
+                <!-- Differential Calculus -->
+                <div class="course-card" data-paper="paper1">
                     <div class="resource-image">
-                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
+                        <i class="fa-solid fa-square-root-variable" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Algebra</h3>
+                        <h3 class="course-title">Differential Calculus</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
-                            
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
                         <div class="course-progress">
-                            <div class="progress-bar" style="width: 75%;"></div>
+                            <div class="progress-bar" style="width: 5%;"></div>
                         </div>
                         <div class="course-meta">
                             <span>Paper 1</span>
-                        
                         </div>
                         <div class="course-actions">
-                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-info-circle"></i>
-                                <details style="position: relative;">
-                                    Details of this topic and concepts which will be covered...
-                                </details>
+                            <button class="btn btn-primary continue-btn" data-page="calculus.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
                             </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers limits, derivatives, and applications of differentiation.</p>
                         </div>
                     </div>
                 </div>
                 
-                            <div class="resource-grid" id="courses-container">
-                <!-- Course cards will be loaded here -->
-                <div class="course-card">
+                <!-- Probability -->
+                <div class="course-card" data-paper="paper1">
                     <div class="resource-image">
-                        <i class="fa-solid fa-superscript" style="font-size: 3rem;"></i>
+                        <i class="fa-solid fa-p" style="font-size: 3rem;"></i>
                     </div>
                     <div class="course-info">
-                        <h3 class="course-title">Algebra</h3>
+                        <h3 class="course-title">Probability</h3>
                         <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prepared by Collins </span>
-                            
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
                         <div class="course-progress">
-                            <div class="progress-bar" style="width: 75%;"></div>
+                            <div class="progress-bar" style="width: 45%;"></div>
                         </div>
                         <div class="course-meta">
                             <span>Paper 1</span>
-                        
                         </div>
                         <div class="course-actions">
-                            <button class="btn btn-primary"><i class="fas fa-book-open"></i> Continue</button>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-info-circle"></i>
-                                <details style="position: relative;">
-                                    Details of this topic and concepts which will be covered...
-                                </details>
+                            <button class="btn btn-primary continue-btn" data-page="probability.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
                             </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers basic probability concepts, counting principles, and probability distributions.</p>
                         </div>
                     </div>
                 </div>
-                
-        </section>
 
-        <!-- Resources Section -->
-        <section id="resources-section" class="content-section">
-            <h2>Available Resources</h2>
-            <div class="filter-options">
-                <select id="resource-type">
-                    <option value="all">All Resources</option>
-                    <option value="video">Videos</option>
-                    <option value="recording">Recordings</option>
-                    <option value="document">Documents</option>
-                    <option value="assignment">Assignments</option>
-                </select>
-                <select id="resource-course">
-                    <option value="all">All Courses</option>
-                    <option value="web-dev">Web Development</option>
-                    <option value="database">Database Systems</option>
-                    <option value="dsa">Data Structures</option>
-                </select>
-                <input type="text" id="resource-search" placeholder="Search resources...">
-            </div>
-            
-            <div class="resource-grid" id="resource-container">
-                <div class="resource-card">
+                <!-- Statistics -->
+                <div class="course-card" data-paper="paper2">
                     <div class="resource-image">
-                        <i class="fas fa-video" style="font-size: 3rem;"></i>
+                        <i class="fa-solid fa-s" style="font-size: 3rem;"></i>
                     </div>
-                    <div class="resource-info">
-                        <h3 class="resource-title">Introduction to HTML5</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-clock"></i> 45 min</span>
-                            <span>Web Development</span>
+                    <div class="course-info">
+                        <h3 class="course-title">Statistics</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
-                        <p class="resource-description">Learn the basics of HTML5 structure and semantic elements.</p>
-                        <div class="resource-actions">
-                            <button class="btn btn-primary"><i class="fas fa-play"></i> Watch</button>
-                            <button class="btn btn-outline"><i class="fas fa-download"></i> Download</button>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 99%;"></div>
+                        </div>
+                        <div class="course-meta">
+                            <span>Paper 2</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary continue-btn" data-page="statistics.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers data analysis, measures of central tendency and dispersion, and statistical inference.</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="resource-card">
-                    <div class="resource-image">
-                        <i class="fas fa-file-pdf" style="font-size: 3rem;"></i>
-                    </div>
-                    <div class="resource-info">
-                        <h3 class="resource-title">SQL Cheat Sheet</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-file-alt"></i> PDF</span>
-                            <span>Database Systems</span>
-                        </div>
-                        <p class="resource-description">Quick reference for all major SQL commands and syntax.</p>
-                        <div class="resource-actions">
-                            <button class="btn btn-primary"><i class="fas fa-eye"></i> View</button>
-                            <button class="btn btn-outline"><i class="fas fa-download"></i> Download</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="resource-card">
-                    <div class="resource-image">
-                        <i class="fas fa-headphones" style="font-size: 3rem;"></i>
-                    </div>
-                    <div class="resource-info">
-                        <h3 class="resource-title">Lecture 5: Binary Trees</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-clock"></i> 1h 15min</span>
-                            <span>Data Structures</span>
-                        </div>
-                        <p class="resource-description">Audio recording of lecture on binary tree traversal methods.</p>
-                        <div class="resource-actions">
-                            <button class="btn btn-primary"><i class="fas fa-play"></i> Listen</button>
-                            <button class="btn btn-outline"><i class="fas fa-download"></i> Download</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="resource-card">
-                    <div class="resource-image">
-                        <i class="fas fa-file-word" style="font-size: 3rem;"></i>
-                    </div>
-                    <div class="resource-info">
-                        <h3 class="resource-title">Assignment 2 Guidelines</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-file-word"></i> DOCX</span>
-                            <span>Web Development</span>
-                        </div>
-                        <p class="resource-description">Detailed instructions for the second assignment on CSS layouts.</p>
-                        <div class="resource-actions">
-                            <button class="btn btn-primary"><i class="fas fa-eye"></i> View</button>
-                            <button class="btn btn-outline"><i class="fas fa-download"></i> Download</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Requests Section -->
-        <section id="requests-section" class="content-section">
-            <h2>Request Question Papers</h2>
-            <form id="request-form">
-                <div class="form-group">
-                    <label for="paper-course">Course:</label>
-                    <select id="paper-course" required>
-                        <option value="">Select a course</option>
-                        <option value="web-dev">Web Development</option>
-                        <option value="database">Database Systems</option>
-                        <option value="dsa">Data Structures & Algorithms</option>
-                        <option value="mobile">Mobile App Development</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="paper-title">Paper Title:</label>
-                    <input type="text" id="paper-title" placeholder="e.g., Midterm Exam 2023" required>
-                </div>
-                <div class="form-group">
-                    <label for="paper-year">Academic Year:</label>
-                    <input type="number" id="paper-year" min="2000" max="2025" placeholder="e.g., 2023" required>
-                </div>
-                <div class="form-group">
-                    <label for="paper-description">Additional Details:</label>
-                    <textarea id="paper-description" placeholder="Any specific details about the paper you're requesting..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Request</button>
-            </form>
-            <div id="request-message" class="message"></div>
-            
-            <h3 style="margin-top: 2rem;">Your Recent Requests</h3>
-            <div class="resource-grid" id="requests-container">
-                <div class="resource-card">
-                    <div class="resource-info">
-                        <h3 class="resource-title">Database Systems Final Exam</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-calendar"></i> Requested: 3 days ago</span>
-                            <span><i class="fas fa-info-circle"></i> Pending</span>
+                <!-- Analytical Geometry -->
+                <div class="course-card" data-paper="paper2">
+                    <div class="resource-image">
+                        <i class="fa-solid fa-a" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">Analytical Geometry</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
-                        <p class="resource-description">Looking for the 2022 final exam paper with solutions if available.</p>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 85%;"></div>
+                        </div>
+                        <div class="course-meta">
+                            <span>Paper 2</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary continue-btn" data-page="analytical_geo.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers coordinate geometry, lines, circles, parabolas, ellipses, and hyperbolas.</p>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="resource-card">
-                    <div class="resource-info">
-                        <h3 class="resource-title">Web Dev Midterm 2023</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-calendar"></i> Requested: 2 weeks ago</span>
-                            <span><i class="fas fa-check-circle" style="color: var(--success-color);"></i> Fulfilled</span>
+
+                <!-- Trigonometry -->
+                <div class="course-card" data-paper="paper2">
+                    <div class="resource-image">
+                        <i class="fa-solid fa-t" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">Trigonometry</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
                         </div>
-                        <p class="resource-description">Received the paper with model answers. Very helpful!</p>
-                        <div class="resource-actions">
-                            <button class="btn btn-primary"><i class="fas fa-download"></i> Download</button>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 45%;"></div>
+                        </div>
+                        <div class="course-meta">
+                            <span>Paper 2</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary continue-btn" data-page="trigonometry.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers trigonometric functions, identities, equations, and their applications.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Euclidean Geometry -->
+                <div class="course-card" data-paper="paper2">
+                    <div class="resource-image">
+                        <i class="fa-solid fa-e" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">Euclidean Geometry</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Prepared by Collins</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 45%;"></div>
+                        </div>
+                        <div class="course-meta">
+                            <span>Paper 2</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary continue-btn" data-page="euclidean_geo.html"><i class="fas fa-book-open"></i> Continue</button>
+                            <button class="btn btn-outline details-btn">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                        </div>
+                        <div class="course-details" style="display: none;">
+                            <p>This topic covers plane geometry, circle geometry, and geometric proofs.</p>
                         </div>
                     </div>
                 </div>
@@ -375,33 +683,153 @@
         </section>
     </div>
 
-    <!-- Feedback Modal -->
-    <div id="feedback-modal" class="modal">
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2><i class="fas fa-comment-alt"></i> Feedback</h2>
-            <p>How was your experience using our platform?</p>
-            <form id="feedback-form">
-                <div class="form-group">
-                    <label for="feedback-rating">Rating:</label>
-                    <div style="display: flex; gap: 0.5rem; font-size: 1.5rem; color: #ffc107;">
-                        <i class="far fa-star" data-rating="1"></i>
-                        <i class="far fa-star" data-rating="2"></i>
-                        <i class="far fa-star" data-rating="3"></i>
-                        <i class="far fa-star" data-rating="4"></i>
-                        <i class="far fa-star" data-rating="5"></i>
-                    </div>
-                    <input type="hidden" id="feedback-rating" required>
-                </div>
-                <div class="form-group">
-                    <label for="feedback-comments">Comments:</label>
-                    <textarea id="feedback-comments" placeholder="What did you like or what can we improve?" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Feedback</button>
-            </form>
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="modal-title">Success!</h3>
+            <p class="modal-message" id="successMessage">Your request has been submitted successfully.</p>
+            <button class="modal-btn" id="modalCloseBtn">Continue</button>
         </div>
     </div>
 
-    <script src="student.js"></script>
+    <script>
+        // Navigation handling
+        document.querySelectorAll('.navbar-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.id !== 'logoutBtn') {
+                    e.preventDefault();
+                    
+                    // Update active nav link
+                    document.querySelector('.navbar-links a.active').classList.remove('active');
+                    this.classList.add('active');
+                    
+                    // Redirect to the appropriate page
+                    if (this.getAttribute('data-section') === 'courses') {
+                        window.location.href = 'student.html';
+                    } else if (this.getAttribute('data-section') === 'resources') {
+                        window.location.href = 'resources.html';
+                    } else if (this.getAttribute('data-section') === 'requests') {
+                        window.location.href = 'request_papers.html';
+                    }
+                }
+            });
+        });
+
+        // Search functionality for courses
+        document.getElementById('course-search').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const courseCards = document.querySelectorAll('#courses-container .course-card');
+            
+            courseCards.forEach(card => {
+                const title = card.querySelector('.course-title').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality for courses
+        document.getElementById('course-filter').addEventListener('change', function() {
+            const filterValue = this.value;
+            const courseCards = document.querySelectorAll('#courses-container .course-card');
+            
+            courseCards.forEach(card => {
+                const paper = card.getAttribute('data-paper');
+                
+                if (filterValue === 'all') {
+                    card.style.display = 'flex';
+                } else if (filterValue === 'paper1' && paper === 'paper1') {
+                    card.style.display = 'flex';
+                } else if (filterValue === 'paper2' && paper === 'paper2') {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Continue button functionality
+        document.querySelectorAll('.continue-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                window.location.href = page;
+            });
+        });
+
+        // Details button functionality with animation
+        document.querySelectorAll('.details-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const details = this.closest('.course-info').querySelector('.course-details');
+                
+                // Toggle display with animation
+                if (details.style.display === 'none' || !details.style.display) {
+                    details.style.display = 'block';
+                    details.style.animation = 'fadeIn 0.3s ease-in-out';
+                } else {
+                    details.style.animation = 'fadeOut 0.3s ease-in-out';
+                    setTimeout(() => {
+                        details.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+
+        // Logout button
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear any session data
+                sessionStorage.clear();
+                localStorage.clear();
+                
+                // Redirect to login page with no history
+                window.location.replace('studentLog_in.html');
+            }
+        });
+
+        // Form submission handling (example for request_papers.html)
+        function handleFormSubmission(formId, successMessage, redirectUrl) {
+            const form = document.getElementById(formId);
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Simulate form submission (replace with actual AJAX call)
+                    setTimeout(() => {
+                        // Show success modal
+                        document.getElementById('successMessage').textContent = successMessage;
+                        document.getElementById('successModal').style.display = 'flex';
+                        
+                        // Set up redirect when modal is closed
+                        document.getElementById('modalCloseBtn').onclick = function() {
+                            window.location.href = redirectUrl;
+                        };
+                    }, 1000);
+                });
+            }
+        }
+
+        // Modal close functionality
+        document.getElementById('modalCloseBtn').addEventListener('click', function() {
+            document.getElementById('successModal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('successModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Initialize form handling (example - call this in your request_papers.html)
+        // handleFormSubmission('requestForm', 'Your paper request has been submitted!', 'request_success.html');
+    </script>
 </body>
 </html>

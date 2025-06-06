@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytical Geometry Learning Portal</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background-color: #fff;
+            color: #1e3c72;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Introduction Section */
+        .intro {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .intro h2 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .intro p {
+            margin-bottom: 1rem;
+        }
+
+        /* Materials Section */
+        .materials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            flex: 1 1 100%;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eaeaea;
+        }
+
+        /* Documents Section */
+        .documents-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .document-card {
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 1.2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-card h3 {
+            color: #2a5298;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .document-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view {
+            background-color: #1e3c72;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: #2a5298;
+        }
+
+        .btn-download {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background-color: #45a049;
+        }
+
+        /* Videos Section */
+        .videos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            margin-top: 0.8rem;
+        }
+
+        .video-info h3 {
+            color: #2a5298;
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+
+        .video-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            margin-top: 1rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .section {
+                flex: 1 1 calc(50% - 1.5rem);
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .materials {
+                flex-wrap: nowrap;
+            }
+
+            .section {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Analytical Geometry</h1>
+        <p>Master the fundamentals of coordinate systems and geometric analysis</p>
+        <button class="back-btn" id="backBtn">Return to Student Dashboard</button>
+    </header>
+
+    <div class="container">
+        <section class="intro">
+            <h2>Introduction to Analytical Geometry</h2>
+            <p>Analytical geometry, also known as coordinate geometry, is the study of geometry using a coordinate system. This contrasts with synthetic geometry, which uses purely geometric methods. Analytical geometry is widely used in physics, engineering, aviation, rocketry, space science, and spaceflight.</p>
+            <p>In this module, you'll learn about Cartesian coordinates, distance between points, equations of lines and curves, and much more. Use the resources below to enhance your understanding.</p>
+        </section>
+
+        <div class="materials">
+            <section class="section">
+                <h2>Learning Documents</h2>
+                <div class="documents-list" id="documentsList">
+                    <!-- Documents will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Video Lectures</h2>
+                <div class="videos-container" id="videosContainer">
+                    <!-- Videos will be loaded here by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Document Viewer Modal -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modalTitle">Document Viewer</h2>
+            <div class="modal-body" id="modalBody">
+                <iframe id="documentViewer" style="width:100%; height:500px; border:none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Document data
+        const documents = [
+            {
+                id: 1,
+                title: "Introduction to Coordinate Geometry",
+                description: "Basic concepts of Cartesian plane and coordinates",
+                fileUrl: "https://example.com/docs/coord-geo-intro.pdf",
+                previewUrl: "https://docs.google.com/viewer?url=https://example.com/docs/coord-geo-intro.pdf",
+                fileType: "pdf",
+                size: "2.4 MB"
+            },
+            {
+                id: 2,
+                title: "Equations of Lines",
+                description: "Detailed explanation of line equations in different forms",
+                fileUrl: "https://example.com/docs/line-equations.pdf",
+                previewUrl: "https://docs.google.com/viewer?url=https://example.com/docs/line-equations.pdf",
+                fileType: "pdf",
+                size: "3.1 MB"
+            },
+            {
+                id: 3,
+                title: "Circle Geometry Problems",
+                description: "Collection of solved problems on circles in coordinate geometry",
+                fileUrl: "https://example.com/docs/circle-problems.pdf",
+                previewUrl: "https://docs.google.com/viewer?url=https://example.com/docs/circle-problems.pdf",
+                fileType: "pdf",
+                size: "1.8 MB"
+            },
+            {
+                id: 4,
+                title: "Analytical Geometry Cheat Sheet",
+                description: "Quick reference for all important formulas",
+                fileUrl: "https://example.com/docs/geo-cheatsheet.pdf",
+                previewUrl: "https://docs.google.com/viewer?url=https://example.com/docs/geo-cheatsheet.pdf",
+                fileType: "pdf",
+                size: "0.9 MB"
+            }
+        ];
+
+        // Video data
+        const videos = [
+            {
+                id: 1,
+                title: "Introduction to Coordinate Geometry",
+                description: "Basic concepts and history of coordinate systems",
+                youtubeId: "dCv6-mE5x6U",
+                duration: "12:45"
+            },
+            {
+                id: 2,
+                title: "Distance Between Two Points",
+                description: "Derivation and application of distance formula",
+                youtubeId: "nyZuite17Pc",
+                duration: "15:30"
+            },
+            {
+                id: 3,
+                title: "Equation of a Line",
+                description: "Different forms of line equations with examples",
+                youtubeId: "9B5WGG3tE1E",
+                duration: "18:22"
+            },
+            {
+                id: 4,
+                title: "Circle Equations",
+                description: "Standard and general form of circle equations",
+                youtubeId: "v8Y8jOKXlUo",
+                duration: "14:15"
+            }
+        ];
+
+        // DOM Elements
+        const documentsList = document.getElementById('documentsList');
+        const videosContainer = document.getElementById('videosContainer');
+        const backBtn = document.getElementById('backBtn');
+        const documentModal = document.getElementById('documentModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const documentViewer = document.getElementById('documentViewer');
+        const closeBtn = document.querySelector('.close-btn');
+
+        // Load documents
+        function loadDocuments() {
+            documentsList.innerHTML = '';
+            documents.forEach(doc => {
+                const docCard = document.createElement('div');
+                docCard.className = 'document-card';
+                docCard.innerHTML = `
+                    <h3>${doc.title}</h3>
+                    <p>${doc.description}</p>
+                    <p><small>File type: ${doc.fileType.toUpperCase()} | Size: ${doc.size}</small></p>
+                    <div class="document-actions">
+                        <button class="btn btn-view" onclick="viewDocument('${doc.title}', '${doc.previewUrl}')">View</button>
+                        <a href="${doc.fileUrl}" download class="btn btn-download">Download</a>
+                    </div>
+                `;
+                documentsList.appendChild(docCard);
+            });
+        }
+
+        // Load videos
+        function loadVideos() {
+            videosContainer.innerHTML = '';
+            videos.forEach(video => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'video-card';
+                videoCard.innerHTML = `
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/${video.youtubeId}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>${video.title}</h3>
+                        <p>${video.description} <br><small>Duration: ${video.duration}</small></p>
+                    </div>
+                `;
+                videosContainer.appendChild(videoCard);
+            });
+        }
+
+        // View document in modal
+        function viewDocument(title, url) {
+            modalTitle.textContent = title;
+            documentViewer.src = url;
+            documentModal.style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            documentModal.style.display = 'none';
+            documentViewer.src = '';
+        }
+
+        // Event Listeners
+        backBtn.addEventListener('click', () => {
+            window.location.href = 'student.html';
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === documentModal) {
+                closeModal();
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDocuments();
+            loadVideos();
+        });
+    </script>
+</body>
+</html>

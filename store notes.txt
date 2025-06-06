@@ -189,3 +189,10 @@ function saveTextFile() {
 
 ]
 )
+
+
+
+
+AI requests{
+    html code to be able to filter the papers and and videos and enableble search function and make sure that when watch is pressed it opeans the viedeo an  the video should have all controls and when the user play another video the other one that was playing automatically stop playing and also when the user press view  the document opeans and when the user uses the filters they filter proparly  and  when the user download video or document they download also when the user press  my courses it redirect the user to this(student.html),when the user press  Request papers it redirect the user to this(request_papers.html),when the user press  Logout it redirect the user to this(studentLog_in.html) and if the student tries to go back it should requre the student to log in first since they have logged out, then when the user press resources it redirect the user to this(resources.html), do all of that by modifiying this
+}
