@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar Styling */
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a i {
+            margin-right: 0.5rem;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* Form Container Styling */
+        .form-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 38px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Message Styling */
+        .message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: 500;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: #4cc9f0;
+            border-left: 4px solid #4cc9f0;
+        }
+
+        .error {
+            background-color: rgba(247, 37, 133, 0.2);
+            color: #f72585;
+            border-left: 4px solid #f72585;
+            animation: shake 0.5s ease;
+        }
+
+        .info {
+            background-color: rgba(67, 97, 238, 0.2);
+            color: var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .form-row {
+                display: flex;
+                gap: 1rem;
+            }
+            
+            .form-row .form-group {
+                flex: 1;
+            }
+            
+            .form-container {
+                max-width: 600px;
+                margin: 2rem auto;
+            }
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #777;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo">
+                <i class="fas fa-user-shield"></i>
+                UserAuth
+            </a>
+            <ul class="nav-links">
+                <li><a href="#signup" class="nav-link"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                <li><a href="#login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li><a href="#reset" class="nav-link"><i class="fas fa-key"></i> Reset Password</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="section-title">User Management System</h1>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="signup">Sign Up</button>
+            <button class="tab-btn" data-tab="login">Login</button>
+            <button class="tab-btn" data-tab="reset">Reset Password</button>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signup" class="form-container tab-content active">
+            <h2><i class="fas fa-user-plus"></i> Create New Account</h2>
+            <p class="info">Join our community today!</p>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">First Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter your first name" required>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Last Name</label>
+                    <input type="text" id="surname" class="form-control" placeholder="Enter your last name" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="cell_phone">Phone Number</label>
+                <input type="tel" id="cell_phone" class="form-control" placeholder="Enter your phone number" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+            </div>
+            
+            <button class="btn" onclick="saveUser()">
+                <i class="fas fa-user-plus"></i> Register Now
+            </button>
+            
+            <div id="signupMessage" class="message" style="display: none;"></div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login" class="form-container tab-content">
+            <h2><i class="fas fa-sign-in-alt"></i> Welcome Back</h2>
+            <p class="info">Please enter your credentials to login</p>
+            
+            <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                <i class="fas fa-eye password-toggle" id="toggleLoginPassword"></i>
+            </div>
+            
+            <button class="btn" onclick="verifyLogin()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            
+            <p style="text-align: center; margin-top: 1rem;">
+                <a href="#reset" class="tab-link" style="color: var(--primary-color);">Forgot password?</a>
+            </p>
+            
+            <div id="loginMessage" class="message" style="display: none;"></div>
+        </div>
+
+        <!-- Reset Password Form -->
+        <div id="reset" class="form-container tab-content">
+            <h2><i class="fas fa-key"></i> Reset Password</h2>
+            <p class="info">Enter your email and new password</p>
+            
+            <div class="form-group">
+                <label for="resetEmail">Email Address</label>
+                <input type="email" id="resetEmail" class="form-control" placeholder="Enter your registered email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" class="form-control" placeholder="Enter new password" required>
+                <i class="fas fa-eye password-toggle" id="toggleNewPassword"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmNewPassword">Confirm New Password</label>
+                <input type="password" id="confirmNewPassword" class="form-control" placeholder="Confirm new password" required>
+                <i class="fas fa-eye password-toggle" id="toggleConfirmNewPassword"></i>
+            </div>
+            
+            <button class="btn" onclick="resetPassword()">
+                <i class="fas fa-sync-alt"></i> Reset Password
+            </button>
+            
+            <div id="resetMessage" class="message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize users array from localStorage or create empty array
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Password toggle functionality
+        function setupPasswordToggle(toggleId, inputId) {
+            const toggle = document.getElementById(toggleId);
+            const input = document.getElementById(inputId);
+            
+            toggle.addEventListener('click', () => {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                toggle.classList.toggle('fa-eye');
+                toggle.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        // Initialize password toggles
+        setupPasswordToggle('togglePassword', 'password');
+        setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
+        setupPasswordToggle('toggleLoginPassword', 'loginPassword');
+        setupPasswordToggle('toggleNewPassword', 'newPassword');
+        setupPasswordToggle('toggleConfirmNewPassword', 'confirmNewPassword');
+
+        // Save user credentials
+        function saveUser() {
+            const name = document.getElementById("name").value.trim();
+            const surname = document.getElementById("surname").value.trim();
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const cell_phone = document.getElementById("cell_phone").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const confirmPassword = document.getElementById("confirmPassword").value.trim();
+            const message = document.getElementById("signupMessage");
+
+            // Reset message
+            message.style.display = 'none';
+
+            // Validate inputs
+            if (!name || !surname || !email || !cell_phone || !password || !confirmPassword) {
+                showMessage(message, '❌ Please fill in all fields!', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage(message, '❌ Passwords do not match!', 'error');
+                return;
+            }
+
+            if (password.length < 8) {
+                showMessage(message, '❌ Password must be at least 8 characters!', 'error');
+                return;
+            }
+
+            // Check for duplicate email or phone number
+            if (users.some(user => user.email === email)) {
+                showMessage(message, '❌ User with this email already exists!', 'error');
+                return;
+            }
+
+            if (users.some(user => user.cell_phone === cell_phone)) {
+                showMessage(message, '❌ User with this phone number already exists!', 'error');
+                return;
+            }
+
+            // Create new user object
+            const newUser = { 
+                name, 
+                surname, 
+                email, 
+                cell_phone, 
+                password,
+                createdAt: new Date().toISOString()
+            };
+
+            // Add to users array
+            users.push(newUser);
+            
+            // Save to localStorage
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Download as JSON (optional)
+            downloadUserData();
+
+            // Show success message
+            showMessage(message, '✅ Registration successful! You can now login.', 'success');
+            
+            // Clear form
+            document.getElementById("name").value = '';
+            document.getElementById("surname").value = '';
+            document.getElementById("email").value = '';
+            document.getElementById("cell_phone").value = '';
+            document.getElementById("password").value = '';
+            document.getElementById("confirmPassword").value = '';
+            
+            // Switch to login tab after delay
+            setTimeout(() => {
+                document.querySelector('.tab-btn[data-tab="login"]').click();
+            }, 2000);
+        }
+
+        // Verify user login
+        function verifyLogin() {
+            const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+            const password = document.getElementById("loginPassword").value.trim();
+            const message = document.getElementById("loginMessage");
+
+            // Reset message
+            message.style.display = 'none';
+
+            if (!email || !password) {
+                showMessage(message, '❌ Please enter both email and password!', 'error');
+                return;
+            }
+
+            const user = users.find(user => user.email === email && user.password === password);
+            
+            if (user) {
+                showMessage(message, '✅ Login successful! Redirecting...', 'success');
+                
+                // Store logged in user in session
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                
+                // Simulate redirect
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 1500);
+            } else {
+                showMessage(message, '❌ Invalid email or password! Please try again.', 'error');
+            }
+        }
+
+        // Reset password
+        function resetPassword() {
+            const email = document.getElementById("resetEmail").value.trim().toLowerCase();
+            const newPassword = document.getElementById("newPassword").value.trim();
+            const confirmNewPassword = document.getElementById("confirmNewPassword").value.trim();
+            const message = document.getElementById("resetMessage");
+
+            // Reset message
+            message.style.display = 'none';
+
+            if (!email || !newPassword || !confirmNewPassword) {
+                showMessage(message, '❌ Please fill in all fields!', 'error');
+                return;
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                showMessage(message, '❌ New passwords do not match!', 'error');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                showMessage(message, '❌ Password must be at least 8 characters!', 'error');
+                return;
+            }
+
+            const userIndex = users.findIndex(user => user.email === email);
+            
+            if (userIndex === -1) {
+                showMessage(message, '❌ Email not found in our system!', 'error');
+                return;
+            }
+
+            // Update password
+            users[userIndex].password = newPassword;
+            
+            // Save to localStorage
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Show success message
+            showMessage(message, '✅ Password reset successfully! You can now login with your new password.', 'success');
+            
+            // Clear form
+            document.getElementById("resetEmail").value = '';
+            document.getElementById("newPassword").value = '';
+            document.getElementById("confirmNewPassword").value = '';
+            
+            // Switch to login tab after delay
+            setTimeout(() => {
+                document.querySelector('.tab-btn[data-tab="login"]').click();
+            }, 2000);
+        }
+
+        // Helper function to show messages
+        function showMessage(element, text, type) {
+            element.textContent = text;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+        }
+
+        // Download user data as JSON
+        function downloadUserData() {
+            const blob = new Blob([JSON.stringify(users, null, 2)], { type: "application/json" });
+            const anchor = document.createElement("a");
+            anchor.href = URL.createObjectURL(blob);
+            anchor.download = "user-data.json";
+            anchor.click();
+        }
+
+        // Tab links functionality
+        document.querySelectorAll('.tab-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tabId = link.getAttribute('href').substring(1);
+                document.querySelector(`.tab-btn[data-tab="${tabId}"]`).click();
+            });
+        });
+    </script>
+</body>
+</html>
